@@ -7,6 +7,9 @@ export async function productDetailRender(data) {
   app.innerHTML = /* html */ `
     <div class="wrap_container">
       <div class="product_detail">
+        <div class="dot-wrap dot_loading">
+          <div class="dot-spinner"></div>
+        </div>
         <div class="product_detail_inner">
           <!-- 제품 태그 -->
           <div class="product_tag">
@@ -14,13 +17,13 @@ export async function productDetailRender(data) {
             <a class="midtag" href="#">${id.tags[1]} ></a>
             <a class="smalltag" href="#">${id.tags[2]}</a>
           </div>
-          <section class="product_content">
+          <div class="product_content">
             <!-- 제품 이미지 -->
             <div class="container_content_productImg">
             <img src="${id.thumbnail}" alt="상품이미지">
           </div>
             <!-- 제품 정보 -->
-            <section class="product_info">
+            <div class="product_info">
               <div class="title">
               <div class="product_info_title">${id.title.replace(
                 /\/.*/,
@@ -29,7 +32,7 @@ export async function productDetailRender(data) {
               <div class="product_info_code"></div>
             </div>
               <!-- 평점, 찜 유뮤, share -->
-              <section class="product_info_option">
+              <div class="product_info_option">
                 <div class="option_stock">
                   <span class="stock_icon material-symbols-outlined">
                     storefront
@@ -41,10 +44,10 @@ export async function productDetailRender(data) {
                     share
                   </span></a>
                 </div>
-              </section>
+              </div>
               <div class="product_info_discount"></div>
               <!-- 제품 상세 이름, 제품 수량 추가 or 감소, 제품 가격 -->
-              <section class="product_info_quantity">
+              <div class="product_info_quantity">
                 <div class="product_info_quantity_box">
                   <div class="box_option">${id.description}</div>
                   <div class="option_content">
@@ -62,18 +65,18 @@ export async function productDetailRender(data) {
                     </div>
                   </div>
                 </div>
-              </section>
+              </div>
               <!-- 총 상품 가격 -->
-              <section class="product_info_count">
+              <div class="product_info_count">
                 <div class="count_totaltext">총 상품금액</div>
                 <div class="count_totalprice">
                 ${Math.round(id.price * ((100 - id.discountRate) * 0.01))
                   .toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
                 </div>
-              </section>
+              </div>
               <!-- 찜, 장바구니, 구매 버튼 -->
-              <section class="product_info_btn">
+              <div class="product_info_btn">
                 <div class="info_btn_heart">
                   <button class="btn_heart"></button>
                 </div>
@@ -85,9 +88,9 @@ export async function productDetailRender(data) {
                   </button>
                 </div>
                 <div class="btn_purchase"><button class="productInfo_btn_purchase">구매하기</button></div>
-              </section>
-            </section>
-          </section>
+              </div>
+            </div>
+          </div>
           <div class="photo">
             <img src="${id.photo}" alt="상세이미지">
           </div>

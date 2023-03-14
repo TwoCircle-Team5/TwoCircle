@@ -1,4 +1,6 @@
-import { router } from '../source/route';
+import { eventBadgeHandler } from '../source/js/event_badge';
+import { headerHandler } from '../source/js/header';
+
 
 export function headerRender() {
   const wrap = document.querySelector('#wrap');
@@ -80,24 +82,34 @@ export function headerRender() {
           <p class="team">TEAM5<br><span>23.01.30<br>~ ING</span></p>
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/110139098?v=4" alt="">
-              <p>박희수</p>
+              <a href="https://github.com/Nevacat" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/110139098?v=4" alt="박희수 프로필">
+                <p>박희수</p>
+              </a>
             </div>
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/100131415?v=4" alt="">
-              <p>김선미</p>
+              <a href="https://github.com/seon-mikim" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/100131415?v=4" alt="김선미 프로필">
+                <p>김선미</p>
+              </a>
             </div>
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/71622691?v=4" alt="">
-              <p>송지윤</p>
+              <a href="https://github.com/jiyoon29" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/71622691?v=4" alt="송지윤 프로필">
+                <p>송지윤</p>
+              </a>
             </div>
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/83224463?v=4" alt="">
-              <p>장현준</p>
+              <a href="https://github.com/hyeon17" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/83224463?v=4" alt="장현준 프로필">
+                <p>장현준</p>
+              </a>
             </div>
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/69203535?v=4" alt="">
-              <p>박현준</p>
+              <a href="https://github.com/johnphjkr" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/69203535?v=4" alt="박현준 프로필">
+                <p>박현준</p>
+              </a>
             </div>
           </div>
           <div class="swiper-scrollbar"></div>
@@ -117,7 +129,7 @@ export function headerRender() {
               </linearGradient>
             </defs>
           </svg>최근 본 상품</a>
-        <a href="javascript:void(0)" class="scroll_top">TOP</a>
+        <button class="scroll_top">TOP</button>
       </div>
     </section>
     <div id="app"></div>
@@ -125,7 +137,7 @@ export function headerRender() {
       <div class="footer_container">
         <div class="inner">
           <div class="footer_left">
-            <h2><img src="../image/main_logo.svg" alt=""/></h2>
+            <h2><img src="../image/main_logo.svg" alt="Logo Image"/></h2>
             <p>
               <a href="#">개인정보처리방침</a>
               <a href="#">이용약관</a>
@@ -171,7 +183,7 @@ export function headerRender() {
               <h3>SNS</h3>
               <ul class="footer_sns">
                 <li class="product_list_item">
-                  <img src="../image/kcp_icon.png" alt="" />
+                  <img src="../image/kcp_icon.png" alt="TwoCircle_logo" />
                 </li>
                 <li class="product_list_item">
                   <a href="https://www.facebook.com" class="facebook"> </a>
@@ -195,54 +207,6 @@ export function headerRender() {
       </div>
     </footer>
   `;
-
-  // 검색기능
-  const search = document.querySelector('.search');
-  const searchInput = document.querySelector('.search input');
-
-  search.addEventListener('submit', (e) => {
-    e.preventDefault();
-    router.navigate(`product_search/${searchInput.value}`);
-  });
-
-  // 카트, 찜하기 개수
-  const cartNum = document.querySelector('.cart_num');
-  const heartNum = document.querySelector('.heart_num');
-
-  if (localStorage.getItem('basket')) {
-    cartNum.innerText = JSON.parse(localStorage.getItem('basket')).length;
-  }
-  if (localStorage.getItem('wish')) {
-    heartNum.innerText = JSON.parse(localStorage.getItem('wish')).length;
-  }
-  // TOP
-  const top = document.querySelector(".scroll_top")
-  top.addEventListener("click",()=>{
-    window.scrollTo({top : 0, behavior: 'smooth'})
-  })
-  // 이벤트 베너
-  const eventBanner = new Swiper('.event-swiper', {
-    width: "100",
-    loop:true,
-    autoplay:true,
-    scrollbar: {
-      el: ".swiper-scrollbar"
-    },
-  });
-  // 스크롤 이벤트
-  const eventSection = document.querySelector(".event")
-  window.addEventListener('scroll',_.throttle(()=>{
-    console.log(window.scrollY)
-    if(window.scrollY<330){
-      gsap.to(eventSection,.4,{
-        opacity:0,
-        display:'none'
-      })
-    }else{
-      gsap.to(eventSection,.4,{
-        opacity:1,
-        display:'block'
-      })
-    }
-  },300))
+  headerHandler()
+  eventBadgeHandler()
 }

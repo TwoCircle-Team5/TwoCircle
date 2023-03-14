@@ -18,6 +18,12 @@
     }
   }
 
+  .swiper {
+    .swiper-button-next, .swiper-button-prev {
+      color: var(--pink-color);
+    }
+  }
+
   .swiper-wrqpper {
     li:first-child {
       .swiper_text {
@@ -69,6 +75,7 @@
 
     li {
       width: 32%;
+      margin-bottom: 0;
       &:nth-child(4),
       &:nth-child(5),
       &:nth-child(6) {

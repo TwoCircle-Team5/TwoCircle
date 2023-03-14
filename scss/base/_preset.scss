@@ -54,7 +54,7 @@ input {
 
 #app {
   min-height: 39.44rem;
-  padding-top: 17rem
+  padding-top: 18.1rem
 }
 
 header {
@@ -333,5 +333,5 @@ footer {
 }
 
 ._hidden {
-  display: none;
+  display: none !important;
 }

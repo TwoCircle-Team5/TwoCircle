@@ -10,6 +10,7 @@ export async function adminProductHandler(id) {
 }
 
 function renderProduct(data) {
+  const dot = document.querySelector(".dot-wrap");
   const adminWrap = document.querySelector('.admin_wrap');
   const titleEl = document.querySelector('.title');
   let tag = false;
@@ -25,7 +26,7 @@ function renderProduct(data) {
   `;
 
   adminWrap.innerHTML = /* html */ `
-    <div>
+    <div class="product_left">
       <div class="product_img">
         <img src=${data.thumbnail ? data.thumbnail : 'https://via.placeholder.com/400x400?text=NO+IMAGE'} alt=${data.description} />
       </div>
@@ -43,6 +44,7 @@ function renderProduct(data) {
       '<div class="tag_box"><span>태그</span></div>'
     }
         <p><span>매진</span>${data.isSoldOut ? '<span class="sold">매진중</span>' : '<span class="sale">판매중</span>'}</p>
+        <p><span>할인율</span>${data.discountRate ? data.discountRate : 0}%</p>
       </div>
     </div>
     <div class="product_detail">
@@ -92,8 +94,9 @@ function renderProduct(data) {
   // 삭제하기
   const deleteBtn = document.querySelector('.delete_btn');
   deleteBtn.addEventListener('click', async function () {
-    await productDelete(id);
+    await productDelete(data.id);
     router.navigate("admin");
   });
+  dot.style.display = "none";
 }
 

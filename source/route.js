@@ -1,5 +1,4 @@
 import Navigo from 'navigo';
-
 import { authCheck } from './api/certified/authcheck_api.js';
 import { logout } from './api/certified/logout_api.js';
 
@@ -30,23 +29,24 @@ import { userListRender } from '../pages/admin/admin_userlist.js';
 import { admin } from './js/admin/admin.js';
 import { dashBoardRender } from "../pages/admin/admin_dashboard.js";
 
+
 export const router = new Navigo('/');
 
 router.hooks({
   before: async (done, match) => {
-    const accessToken = JSON.parse(localStorage.getItem('accessToken'));
+    const accessToken = JSON.parse(localStorage.getItem("accessToken"));
     const auth = await authCheck(accessToken);
     headerRender();
     // 페이지 가드
     const onlyUserPages = ['mypage', 'mypage/wish', 'account', 'payment', 'mypage/changeInfo', 'mypage/account', 'admin', 'admin/product_add'];
-    const onlyAdminPages = ['admin', 'admin/product_add', 'admin/user_list'];
+    const onlyAdminPages = ["admin", "admin/product_add", "admin/user_list", 'admin/dashboard'];
 
     if (onlyUserPages.includes(match.url) && !auth) {
-      router.navigate('login');
+      router.navigate("login");
       done();
     }
-    if ((match.url === 'login' || match.url === 'signup') && auth) {
-      router.navigate('/');
+    if ((match.url === "login" || match.url === "signup") && auth) {
+      router.navigate("/");
       done();
     }
     // 관리자 페이지
@@ -56,34 +56,34 @@ router.hooks({
     }
 
     // 로그인 로그아웃시 헤더 변경
-    const loginEl = document.querySelector('.header_login');
-    const logoutEl = document.querySelector('.header_logout');
-    const loginNameEl = document.querySelector('.login_name');
-    const logoutBtn = document.querySelector('.logout_btn');
+    const loginEl = document.querySelector(".header_login");
+    const logoutEl = document.querySelector(".header_logout");
+    const loginNameEl = document.querySelector(".login_name");
+    const logoutBtn = document.querySelector(".logout_btn");
     if (auth) {
-      loginEl.style.display = 'none';
-      logoutEl.style.display = 'flex';
+      loginEl.style.display = "none";
+      logoutEl.style.display = "flex";
       loginNameEl.innerHTML = `${auth.displayName}님, 안녕하세요`;
-      logoutBtn.addEventListener('click', async () => {
+      logoutBtn.addEventListener("click", async () => {
         await logout(accessToken);
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('payment');
         loginEl.style.display = 'flex';
         logoutEl.style.display = 'none';
         router.navigate("/");
         done();
       });
     } else {
-      loginEl.style.display = 'flex';
-      logoutEl.style.display = 'none';
+      loginEl.style.display = "flex";
+      logoutEl.style.display = "none";
     }
 
     // 관리자
-    if (auth && auth.email === process.env.ADMIN && match.url === '') {
+    if (auth && auth.email === process.env.ADMIN) {
       loginNameEl.innerHTML = /* html */ `
         <a href="/admin">관리자페이지로 이동</a>
       `;
     }
-
     done();
   },
   after: (match) => {
@@ -96,16 +96,16 @@ router
       mainRender();
     },
 
-    "login": () => {
+    login: () => {
       loginRender();
     },
-    "signup": () => {
+    signup: () => {
       signupRender();
     },
-    "cart": () => {
+    cart: () => {
       cartRender();
     },
-    "mypage": () => {
+    mypage: () => {
       navRender();
       mypageRender();
     },
@@ -124,6 +124,7 @@ router
     "mypage/account": (match) => {
       navRender();
       pwCheckRender(match.url);
+      accountRender();
     },
     "product_list/:id": (match) => {
       productListRender(match.data.id);
@@ -182,4 +183,3 @@ router
     },
   })
   .resolve();
-

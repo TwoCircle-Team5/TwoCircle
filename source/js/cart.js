@@ -3,13 +3,13 @@ import { cartRender } from '../../pages/user/cart';
 /**장바구니 로컬스토리지에 저장된 데이터 갖고오는 변수*/
 
 export function cartHandler() {
-  const ulEl = document.querySelector('.cart_list');
-  const totalCheckbox = document.querySelector('.info_total_checkbox');
-
-  const cancelBtn = document.querySelector('.cancel_btn');
-  const purchaseBtn = document.querySelector('.purchase_btn');
-  const basketItem = JSON.parse(localStorage.getItem('basket'));
-  cancelBtn?.addEventListener('click', () => {
+  const ulEl = document.querySelector(".cart_list");
+  const totalCheckbox = document.querySelector(".info_total_checkbox");
+  
+  const cancelBtn = document.querySelector(".cancel_btn");
+  const purchaseBtn = document.querySelector(".purchase_btn");
+  const basketItem = JSON.parse(localStorage.getItem("basket"));
+  cancelBtn.addEventListener("click", () => {
     let cartItemList = [...basketItem];
 
     const selectedItemList = Array.from(document.querySelectorAll('.want_checkbox:checked')).map(
@@ -23,8 +23,8 @@ export function cartHandler() {
     cartRender();
   });
 
-  totalCheckbox?.addEventListener('change', (e) => {
-    const checkBox = ulEl.querySelectorAll('.want_checkbox');
+  totalCheckbox.addEventListener("change", (e) => {
+    const checkBox = ulEl.querySelectorAll(".want_checkbox");
     const { checked } = e.target;
 
     checkBox.forEach((item) => {
@@ -66,18 +66,20 @@ export function cartHandler() {
 
 /**장바구니 리스트 렌더링 함수 */
 export const renderCartList = () => {
-  const ulEl = document.querySelector('.cart_list');
-  const basketItem = JSON.parse(localStorage.getItem('basket'));
-  const isEmpty = basketItem === null || basketItem.length === 0;
+  
+  const ulEl = document.querySelector(".cart_list");
+  const basketItem = JSON.parse(localStorage.getItem("basket"));
+  const isEmpty = basketItem === null || basketItem.length === 0 
+  console.log(basketItem)
+    if(!isEmpty){
 
-  if (!isEmpty) {
-    const liEls = basketItem.map((item) => {
-      const liEl = document.createElement('li');
-
-      liEl.dataset.id = item?.id;
-      liEl.classList = 'cart_list_item';
-
-      liEl.innerHTML = /*html*/ `
+      const liEls = basketItem.map((item) => {
+        const liEl = document.createElement("li");
+       
+        liEl.dataset.id = item.id;
+        liEl.classList = "cart_list_item";
+       
+        liEl.innerHTML = /*html*/ `
                         <div class="cart_card">
                             <div class="want_checkbox_wrap">
                              ${!isEmpty ? `<input type="checkbox" class="want_checkbox" checked/>` : ''} 
@@ -85,7 +87,7 @@ export const renderCartList = () => {
                             <div class="img_wrap">
                               <img
                                 src=${item.thumbnail}
-                                alt=""
+                                alt="Item ThumbNail"
                                 class="card_img" />
                             </div>
                             <div class="product_name_wrap">
@@ -112,19 +114,20 @@ export const renderCartList = () => {
   }
 
   renderTotalPrice();
-  ulEl?.addEventListener('click', clickHandler);
+  ulEl.addEventListener('click', clickHandler);
 };
 
 /**장바구니 총합계 렌더링 함수*/
 const renderTotalPrice = () => {
-  const basketItem = JSON.parse(localStorage.getItem('basket'));
-  const totalPriceArea = document.querySelector('.cart_total_price_area');
-  const isEmpty = basketItem === null || basketItem.length === 0;
-  if (!isEmpty) {
-    totalPriceArea.classList.remove('_hidden');
-    const divEl = document.createElement('div');
-    divEl.classList = 'area_wrap';
-    divEl.innerHTML = /*html*/ `
+
+  const basketItem = JSON.parse(localStorage.getItem("basket"));
+  const totalPriceArea = document.querySelector(".cart_total_price_area");
+  const isEmpty = !basketItem?.length
+  if(!isEmpty) {
+  totalPriceArea.classList.remove('_hidden')
+  const divEl = document.createElement("div");
+  divEl.classList = "area_wrap";
+  divEl.innerHTML = /*html*/ `
                     <div class="cart_order_price">
                       <span class="order_price_text">주문금액</span>
                       <span class="price"></span>
@@ -143,6 +146,7 @@ const renderTotalPrice = () => {
   }
   
   getToTalPrice();
+  
 };
 
 /** 장바구니 총 합계 구하는 함수*/
@@ -191,50 +195,56 @@ const decrease = (liEls) => {
   let amount = targetItem.count;
   const isDiscount = targetItem.discountRate;
 
-  if (amount > 1 && isDiscount) {
-    amount -= 1;
-    amountEl.textContent = amount;
-    const productPrice = amount * (targetItem.price - (targetItem.price * targetItem.discountRate) / 100);
-    priceEl.textContent = `${Intl.NumberFormat('KO-KR').format(productPrice)}원`;
-    targetItem.count = amount;
-    targetItem.totalPrice = productPrice;
-    localStorage.setItem('basket', JSON.stringify(basketItem));
-  } else if (amount > 1 && isDiscount === 0) {
-    amount -= 1;
-    amountEl.textContent = amount;
-    priceEl.textContent = `${amount * targetItem.price}원`;
-    targetItem.count = amount;
-    targetItem.totalPrice = targetItem.count * targetItem.price;
-    localStorage.setItem('basket', JSON.stringify(basketItem));
-  }
-  getToTalPrice();
-};
+
+     if (amount > 1 && isDiscount) {
+        amount -= 1;
+        amountEl.textContent = amount;
+        const productPrice =  amount * (targetItem.price-targetItem.price*targetItem.discountRate/100)
+        priceEl.textContent = `${Intl.NumberFormat("KO-KR").format(productPrice)}원`;
+        targetItem.count = amount 
+        targetItem.totalPrice =  productPrice;
+        localStorage.setItem('basket',JSON.stringify(basketItem))  
+        
+     }else if (amount > 1 && isDiscount === 0) {
+      amount -= 1;
+        amountEl.textContent = amount;
+        priceEl.textContent = `${(amount * targetItem.price)}원`;
+        targetItem.count = amount 
+        targetItem.totalPrice =  targetItem.count * targetItem.price;
+        localStorage.setItem('basket',JSON.stringify(basketItem))  
+     }
+     cartHandler()
+     getToTalPrice()
+    
+}
 const increase = (liEls) => {
   const basketItem = JSON.parse(localStorage.getItem('basket'));
   const targetId = liEls.dataset.id;
-  const targetItem = basketItem.find((item) => item?.id === targetId);
-  const increaseBtn = liEls.querySelector('.increase_btn');
-  const amountEl = liEls.querySelector('.amount');
-  const priceEl = liEls.querySelector('.price');
-  let amount = targetItem.count;
-  const isDiscount = targetItem.discountRate;
+  const targetItem = basketItem.find(item => item?.id === targetId)
+  const increaseBtn = liEls.querySelector(".increase_btn")
+  const amountEl = liEls.querySelector(".amount");
+  const priceEl = liEls.querySelector(".price");
+  let amount = targetItem.count 
+  const isDiscount = targetItem.discountRate
+  
 
-  if (isDiscount) {
-    amount += 1;
-    const productPrice = amount * (targetItem.price - (targetItem.price * targetItem.discountRate) / 100);
-    amountEl.textContent = amount;
-    priceEl.textContent = `${Intl.NumberFormat('KO-KR').format(productPrice)}원`;
-    targetItem.count = amount;
-    targetItem.totalPrice = productPrice;
-    localStorage.setItem('basket', JSON.stringify(basketItem));
-  } else if (isDiscount === 0) {
-    amount += 1;
-    const productPrice = amount * targetItem.price;
-    amountEl.textContent = amount;
-    priceEl.textContent = `${Intl.NumberFormat('KO-KR').format(productPrice)}원`;
-    targetItem.count = amount;
-    targetItem.totalPrice = targetItem.count * targetItem.price;
-    localStorage.setItem('basket', JSON.stringify(basketItem));
-  }
-  getToTalPrice();
-};
+      if(isDiscount) {
+        amount += 1;
+        const productPrice =  amount * (targetItem.price-targetItem.price*targetItem.discountRate/100)
+        amountEl.textContent = amount;
+        priceEl.textContent = `${Intl.NumberFormat("KO-KR").format(productPrice)}원`
+        targetItem.count = amount 
+        targetItem.totalPrice = productPrice
+        localStorage.setItem('basket',JSON.stringify(basketItem)) 
+      }else if (isDiscount === 0) {
+        amount += 1;
+        const productPrice = amount * targetItem.price
+        amountEl.textContent = amount;
+        priceEl.textContent = `${Intl.NumberFormat("KO-KR").format(productPrice)}원`;
+        targetItem.count = amount 
+        targetItem.totalPrice =  targetItem.count * targetItem.price;
+        localStorage.setItem('basket',JSON.stringify(basketItem))  
+      }
+    cartHandler()
+   getToTalPrice()
+}

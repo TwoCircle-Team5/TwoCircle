@@ -16,6 +16,9 @@ export function adminWrap() {
       </div>
     </header>
     <div class="admin_container">
+       <div class="dot-wrap admin_dot">
+        <div class="dot-spinner"></div>
+      </div>
       <div class="menu">
         <ul class="menu_list">
           <li class="menu_prd_list"><a href="/admin" data-navigo>상품 리스트</a></li>
@@ -26,6 +29,7 @@ export function adminWrap() {
       </div>
       <div id="admin"></div>
     </div>
+   
   `;
   admin();
 }

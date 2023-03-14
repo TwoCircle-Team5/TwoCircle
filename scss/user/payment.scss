@@ -45,6 +45,13 @@
         margin-bottom: 4rem;
       }
 
+      .dot_loading {
+        z-index: 4;
+        position: fixed;
+        top: 15rem;
+        left: 50%;
+      }
+
       .payment_inner {
         display: flex;
         max-width: 134rem;
@@ -182,26 +189,22 @@
                 justify-content: space-between;
               }
             }
-            .bank_card{
-              border: 1px solid var(--black-color);
-              display: flex;
-              flex-direction: column;
-              height: 100%;
-    padding: 2rem;
-              .card_img{
-                width: 11rem;
-                height: 10rem;
+
+            .bank_card_wrap {
+              height: 15rem;
+              padding: 2rem;
+
+              .bank_card {
+                height: 13rem;
                 display: flex;
-                align-items: center;
                 justify-content: center;
-                .img{
-                  width:80%;
-                  height: 80%;
+
+                img {
+                  width: 15rem;
+                  height: 10rem;
                 }
               }
             }
-
-
           }
         }
       }
@@ -210,7 +213,7 @@
     // 결제정보요약
     .inner_summary {
       position: sticky;
-      top: 0;
+      top: 25rem;
       display: flex;
       flex-direction: column;
       width: 35rem;

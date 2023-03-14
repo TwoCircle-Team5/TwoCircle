@@ -4,10 +4,11 @@
     .wish_wrap {
      
       .wish_header {
-        .header {
+        h2 {
           font-size: 3.2rem;
           font-weight: var(--font-bold);
           padding: 0 0 4rem;
+          line-height: 1;
         }
       }
 
@@ -20,7 +21,7 @@
         padding-bottom: 20rem;
         .wish_icon {
           .heart_img {
-            width: 18rem;
+            width: 12rem;
           }
         }
         .empty_text {

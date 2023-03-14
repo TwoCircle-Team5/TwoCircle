@@ -25,8 +25,8 @@ export async function purchaseHandler() {
   let product_title = '';
   let product_price = 0;
   let product_time = '';
-  let deal_done = false;
-  let deal_canceled = false;
+  let dealDone = false;
+  let dealCanceled = false;
   let list_items = '';
   let detailId = '';
   let filtered_items = '';
@@ -41,10 +41,15 @@ export async function purchaseHandler() {
   };
   let currentPage = 1;
   let itemsPerPage = 5;
+  let itemLength = 0;
 
   
   status1FilterEl.style.cssText = 'background-color: #FF597B; border-color: #FF597B; color: #FFFFFF;';
   renderItemList();
+  //targetPageLink = document.querySelectorAll('.list_item_pagination a[data-page="1"]');
+  //console.log('링크 '+Array.for(targetPageLink));
+  //var targetPageLinkHref = targetPageLink.href;
+  //targetPageLinkHref.classList.add('active-link');
   
 
   //구매 상태 필터 이벤트
@@ -230,10 +235,17 @@ export async function purchaseHandler() {
         btnEl.classList.add('list_item_btn');
 
         detailId = item.detailId;
-        deal_canceled = item.isCanceled;
-        deal_done = item.done;
+        dealCanceled = item.isCanceled;
+        dealDone = item.done;
 
-        titleEl.textContent = item.product.title;
+        let result = item.product.title;
+
+        if (item.product.title.includes('/')) {
+          const index = item.product.title.indexOf('/');
+          result = item.product.title.substring(0, index);
+        }
+
+        titleEl.textContent = result;
         priceEl.textContent = item.product.price + ' 원';
         timeEl.textContent = getdate(item.timePaid);
         const productInfoEl = document.createElement('div');
@@ -241,15 +253,16 @@ export async function purchaseHandler() {
         productInfoEl.append(imgEl, titleEl);
         listItemEl.append(timeEl, productInfoEl, priceEl, btnEl);
 
-        if (deal_canceled == true && deal_done == false) {
+        if (dealCanceled == true && dealDone == false) {
           btnEl.textContent = '구매 취소';
           listItemCancelEl.appendChild(listItemEl);
         }
-        if (deal_done == true && deal_canceled == false) {
+        if (dealDone == true && dealCanceled == false) {
           btnEl.textContent = '구매 확정';
           listItemConfirmEl.appendChild(listItemEl);
         }
-        if (deal_done == false && deal_canceled == false) {
+        if (dealDone == false && dealCanceled == false) {
+          console.log(detailId);
           const btnOkEl = document.createElement('div');
           btnOkEl.classList.add('btn_ok');
           btnOkEl.textContent = '확정';
@@ -260,7 +273,7 @@ export async function purchaseHandler() {
           btnOkEl.addEventListener('click', (e) => {
             //구매 확정
             alert('구매가 확정되었습니다!');
-            deal_done = true;
+            dealDone = true;
             detailId = item.detailId;
             purchaseOk({ detailId });
             btnOkEl.style.display = 'none';
@@ -272,7 +285,7 @@ export async function purchaseHandler() {
           btnCancelEl.addEventListener('click', (e) => {
             //구매 취소
             alert('구매가 취소되었습니다.');
-            deal_canceled = true;
+            dealCanceled = true;
             detailId = item.detailId;
             purchaseCancel({ detailId });
             btnOkEl.style.display = 'none';
@@ -316,9 +329,11 @@ export async function purchaseHandler() {
     }
 
     const listItems = listItemContainerEl.querySelectorAll('ul li');
-
-    updatePagination(listItems.length, itemsPerPage, currentPage);
+    console.log(listItems);
+    itemLength = listItems.length;
+    updatePagination(itemLength, itemsPerPage, currentPage);
     displayPage(currentPage, itemsPerPage);
+    console.log(currentPage);
   }
 
   //페이지네이션
@@ -326,24 +341,76 @@ export async function purchaseHandler() {
     const numPages = Math.ceil(numItems / itemsPerPage);
     paginationContainer.innerHTML = '';
 
-    for (let i = 1; i <= numPages; i++) {
-      const link = document.createElement('a');
-      link.href = '#';
-      link.classList.add('page-link');
-      link.dataset.page = i;
-      link.textContent = i;
+    const groupSize = 5; 
+    const groupIndex = Math.floor((currentPage - 1) / groupSize);
+    const startPage = groupIndex * groupSize + 1;
+    const endPage = Math.min(startPage + groupSize - 1, numPages);
 
-      if (i === currentPage) {
-        link.classList.add('active-link');
-      }
-
-      paginationContainer.appendChild(link);
-
-      // const activeLink = paginationContainer.querySelector('.active');
-      // if (activeLink) {
-      //     activeLink.classList.add('active-link');
-      // }
+    // 처음으로
+    const firstLink = createPaginationLink(currentPage - groupSize, '<<');
+    paginationContainer.appendChild(firstLink);
+    
+    // 이전
+    const prevLink = createPaginationLink(currentPage - groupSize, '<');
+    paginationContainer.appendChild(prevLink);
+    if (currentPage === 1) {
+      firstLink.disabled = true;
+      prevLink.disabled = true;
+      firstLink.classList.add('arrow-link-unactive');
+      prevLink.classList.add('arrow-link-unactive');
     }
+    else {
+      firstLink.disabled = false;
+      prevLink.disabled = false;
+      firstLink.classList.remove('arrow-link-unactive');
+      prevLink.classList.remove('arrow-link-unactive');
+    }
+
+    
+    for (let i = startPage; i <= endPage; i++) {
+      const link = createPaginationLink(i, i);
+      paginationContainer.appendChild(link);
+    }
+
+    // 다음
+    const nextLink = createPaginationLink(endPage, '>');
+    paginationContainer.appendChild(nextLink);
+    
+
+    //마지막
+    const lastLink = createPaginationLink(numPages, '>>');
+    paginationContainer.appendChild(lastLink);
+    if (currentPage === numPages) {
+      nextLink.disabled = true;
+      lastLink.disabled = true;
+      nextLink.classList.add('arrow-link-unactive');
+      lastLink.classList.add('arrow-link-unactive');
+    }
+    else {
+      nextLink.disabled = false;
+      lastLink.disabled = false;
+      nextLink.classList.remove('arrow-link-unactive');
+      lastLink.classList.remove('arrow-link-unactive');
+    }
+    
+  }
+
+  function createPaginationLink(pageNumber, label) {
+    const link = document.createElement('a');
+    link.href = '#';
+    if (typeof label === 'number') {
+      link.classList.add('page-link');
+      if (label === currentPage) {
+        link.classList.add('active-link');
+        console.log("링크이동 "+currentPage);
+      }
+    }
+    else {
+      link.classList.add('arrow-link');
+    }
+    link.dataset.page = pageNumber;
+    link.textContent = label;
+    return link;
   }
 
   function displayPage(pageNum, itemsPerPage) {
@@ -363,14 +430,32 @@ export async function purchaseHandler() {
   paginationContainer.addEventListener('click', (event) => {
     event.preventDefault();
     const link = event.target;
+    console.log(link);
     if (link.classList.contains('page-link')) {
       const pageNum = parseInt(link.dataset.page, 10);
+      currentPage = pageNum;
+      updatePagination(itemLength, itemsPerPage, currentPage);
       displayPage(pageNum, itemsPerPage);
-
-      paginationContainer.querySelectorAll('.page-link').forEach((link) => {
-        link.classList.remove('active-link');
-      });
-      link.classList.add('active-link');
+    }
+    if (link.textContent === '<<') {
+      currentPage = 1;
+      updatePagination(itemLength, itemsPerPage, currentPage);
+      displayPage(currentPage, itemsPerPage);
+    }
+    if (link.textContent === '<') {
+      currentPage -= 1;
+      updatePagination(itemLength, itemsPerPage, currentPage);
+      displayPage(currentPage, itemsPerPage);
+    }
+    if (link.textContent === '>') {
+      currentPage += 1;
+      updatePagination(itemLength, itemsPerPage, currentPage);
+      displayPage(currentPage, itemsPerPage);
+    }
+    if (link.textContent === '>>') {
+      currentPage = Math.ceil(itemLength / itemsPerPage, currentPage);
+      updatePagination(itemLength, itemsPerPage, currentPage);
+      displayPage(currentPage, itemsPerPage);
     }
   });
 

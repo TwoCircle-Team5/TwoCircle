@@ -13,6 +13,7 @@ export async function authCheck(accessToken) {
   })
   if(res.status !== 200) {
     localStorage.removeItem("accessToken")
+    localStorage.removeItem("pwCheck")
     return null;
   }
   return await res.json();

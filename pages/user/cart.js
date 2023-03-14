@@ -3,7 +3,7 @@ import { cartHandler, renderCartList } from "../../source/js/cart"
 export function cartRender(){
   const app =document.querySelector("#app")
   const basketItem = JSON.parse(localStorage.getItem("basket"));
-  const isEmpty = basketItem === null || basketItem.length === 0 
+  const isEmpty = !basketItem?.length 
  
   app.innerHTML=/*html*/`
   <section class="cart">
@@ -61,5 +61,8 @@ export function cartRender(){
     </div>
   </section>`
   renderCartList()
-  cartHandler()
+  if(!isEmpty) {
+
+    cartHandler()
+  }
 }

@@ -26,15 +26,15 @@ export function adminProductAdd() {
             <ul class="main_tag">
               <li>
                 <input type="checkbox" id="best" name="main_tag" />
-                <label for="best">핫한 상품</label>
+                <label for="best">핫한 상품<span class="best_count">()</span></label>
               </li>
               <li>
                 <input type="checkbox" id="md" name="main_tag" />
-                <label for="md">MD 추천 상품</label>
+                <label for="md">MD 추천 상품<span class="md_count">()</span></label>
               </li>
               <li>
                 <input type="checkbox" id="new" name="main_tag" />
-                <label for="new">신상품</label>
+                <label for="new">신상품<span class="new_count">()</span></label>
               </li>
             </ul>
             <span>핫한 상품(6), MD 추천 상품(6), 신상품(12)까지만 보입니다.</span>

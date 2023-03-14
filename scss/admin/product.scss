@@ -1,4 +1,7 @@
 .product_admin_wrap {
+  .product_left {
+    width: 40rem;
+  }
   img {
     display: block;
     width: 100%;
@@ -54,12 +57,12 @@
   }
 
   .product_detail {
-    width: 40rem;
-    margin-left: 5rem;
+    width: 65rem;
+    margin-left: 10rem;
     font-size: 2rem;
     font-weight: 700;
     &_img {
-      height: 70rem;
+      height: 90rem;
       margin-top: 1rem;
       overflow: auto;
     }

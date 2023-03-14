@@ -1,4 +1,5 @@
 import { router } from "../../source/route.js";
+import { loading } from "../../source/js/loading.js";
 
 export async function productDetailHandler(id) {
   // DOM 요소 변수
@@ -16,18 +17,15 @@ export async function productDetailHandler(id) {
   const discountEl = document.querySelector(".product_info_discount");
   const discountPriceEl = document.querySelector(".option_content_discount");
   const optionPriceEl = document.querySelector(".option_content_price");
+  loading();
+  const dot = document.querySelector(".dot-wrap");
 
   // 초기화
   const INITIAL_COUNT_VALUE = 1;
-  let countTotalPrice = calculateTotalPrice(
-    id.price,
-    id.discountRate,
-    INITIAL_COUNT_VALUE
-  );
+  let countTotalPrice = calculateTotalPrice(id.price, id.discountRate, INITIAL_COUNT_VALUE);
   const discountPrice = id.price - id.price * (id.discountRate * 0.01);
-  document.querySelector(".product_info_code").innerHTML = `${
-    id.title.match(/\/(.*)/)[1]
-  }`; // 제품 코드
+  // 제품 코드
+  document.querySelector(".product_info_code").innerHTML = `${id.title.match(/\/(.*)/)[1]}`;
 
   if (!id.discountRate) {
     discountPriceEl.innerHTML = formatPrice(id.price);
@@ -42,11 +40,7 @@ export async function productDetailHandler(id) {
     if (countEl.value > 1) {
       countEl.value--;
       countEl.innerHTML = countEl.value;
-      countTotalPrice = calculateTotalPrice(
-        id.price,
-        id.discountRate,
-        countEl.value
-      );
+      countTotalPrice = calculateTotalPrice(id.price, id.discountRate, countEl.value);
       countTotalPriceEl.innerHTML = formatPrice(countTotalPrice);
     }
   });
@@ -54,46 +48,44 @@ export async function productDetailHandler(id) {
   plusBtnEl.addEventListener("click", () => {
     countEl.value++;
     countEl.innerHTML = countEl.value;
-    countTotalPrice = calculateTotalPrice(
-      id.price,
-      id.discountRate,
-      countEl.value
-    );
+    countTotalPrice = calculateTotalPrice(id.price, id.discountRate, countEl.value);
     countTotalPriceEl.innerHTML = formatPrice(countTotalPrice);
   });
 
   // 찜 버튼
-  let wishList = JSON.parse(localStorage.getItem("wish"))
-    ? JSON.parse(localStorage.getItem("wish"))
-    : [];
+  let wishList = JSON.parse(localStorage.getItem("wish")) ? JSON.parse(localStorage.getItem("wish")) : [];
   const isCartItem = wishList.find((wish) => wish.id === id.id);
   heartBtnEl.innerHTML = /*html*/ `
   <div class="favorite_icons">
-    <i class="${
-      isCartItem ? "fa-solid" : "fa-regular"
+    <i class="${isCartItem ? "fa-solid" : "fa-regular"
     } fa-heart favorite"></i><p class="favorite_text">찜</p>
   </div>
 `;
   const favoriteEl = heartBtnEl.querySelector(".favorite");
   heartBtnEl.addEventListener("click", () => {
     const isCart = wishList.find((wish) => wish.id === id.id);
+    const heartNum = document.querySelector(".heart_num");
     favoriteEl.classList.toggle("fa-regular", isCart);
     favoriteEl.classList.toggle("fa-solid", !isCart);
     if (isCart) {
       wishList = wishList.filter((wish) => wish.id !== id.id);
       localStorage.setItem("wish", JSON.stringify(wishList));
+      if (localStorage.getItem("wish")) {
+        heartNum.innerText = JSON.parse(localStorage.getItem("wish")).length;
+      }
       return;
     }
     addItemToStorage(wishList, id);
     localStorage.setItem("wish", JSON.stringify(wishList));
+    if (localStorage.getItem("wish")) {
+      heartNum.innerText = JSON.parse(localStorage.getItem("wish")).length;
+    }
   });
 
   // 품절 여부 출력
   stockEl.innerHTML = id.isSoldOut ? "품절" : "재고 있음";
   /// 할인율 출력
-  discountEl.innerHTML = id.discountRate
-    ? `할인율 ${id.discountRate}%`
-    : "할인불가";
+  discountEl.innerHTML = id.discountRate ? `할인율 ${id.discountRate}%` : "할인불가";
 
   // 태그 유무에 따른 태그 출력
   if (id.tags[0] === undefined) {
@@ -140,13 +132,17 @@ export async function productDetailHandler(id) {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
   }
 
+  // basket 로컬스토리지에 담기
   function addToBasket() {
     let getBasketItems = JSON.parse(localStorage.getItem("basket"));
+    const cartNum = document.querySelector('.cart_num');
+
     if (!getBasketItems) {
       getBasketItems = [];
     }
     const existId = getBasketItems.find((item) => item.id === id.id);
 
+    // 동일한 상품이 담겨 있다면 수량만 추가
     if (existId) {
       existId.count += parseInt(countEl.value);
       existId.totalPrice += countTotalPrice;
@@ -154,8 +150,12 @@ export async function productDetailHandler(id) {
       addItemToStorage(getBasketItems);
     }
     localStorage.setItem("basket", JSON.stringify(getBasketItems));
+    if (localStorage.getItem('basket')) {
+      cartNum.innerText = JSON.parse(localStorage.getItem('basket')).length;
+    }
   }
 
+  // 로컬스토리지로 데이터 담기
   function addItemToStorage(getStorage) {
     const itemEl = {
       id: id.id,
@@ -171,11 +171,13 @@ export async function productDetailHandler(id) {
     getStorage.push(itemEl);
   }
 
+  // 공유 버튼 클릭 이벤트
   const shareBtnEl = document.querySelector("#kakaotalk-sharing-btn");
   shareBtnEl.addEventListener("click", () => {
     shareMessage();
   });
 
+  // 카카오톡 공유
   function shareMessage() {
     Kakao.Share.sendDefault({
       objectType: "feed",
@@ -200,4 +202,5 @@ export async function productDetailHandler(id) {
       ],
     });
   }
+  dot.style.display = "none";
 }

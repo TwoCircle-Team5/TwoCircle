@@ -1,5 +1,4 @@
 import { allProduct } from "../../api/products/admin/allProduct_api.js";
-import { transactionDetail } from "../../api/products/admin/product_transactions_api.js";
 
 export async function productDataHandler() {
   const data = await allProduct();
@@ -40,9 +39,4 @@ export async function productDataHandler() {
     newItem,
     md,
   };
-}
-
-export async function transactionDataHandler() {
-  const data = await transactionDetail();
-  const purchase = [];
 }
