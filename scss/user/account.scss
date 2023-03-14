@@ -18,7 +18,7 @@
   z-index: 3;
 
   /* 임시 지정 */
-  width: 50rem;
+  width: 55rem;
   height: 70rem;
 
   &_wrap {
@@ -29,14 +29,14 @@
     flex-direction: column;
     padding: 2rem;
     font-size: 1.8rem;
-    width: 45rem;
+    // width: 48rem;
     margin: 2rem auto;
 
     .close_btn {
       border: none;
       position: absolute;
       top: 0.5rem;
-      left: 39rem;
+      right: 3rem;
       background-color: transparent;
       font-size: 3rem;
       cursor: pointer;
@@ -53,10 +53,9 @@
     .bank_code_wrap {
       display: flex;
       flex-wrap: wrap;
-      justify-content: start;
       align-items: center;
       margin-bottom: 3rem;
-      width: 48rem;
+      width: 42rem;
       margin: 0 auto;
 
       .bank_code {
@@ -97,94 +96,144 @@
       }
     }
 
-    .bank_account_wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-      .bank_account {
-        text-align: center;
-        margin-right: 2rem;
+    .card_template {
+      width: 42rem;
+      min-height: 25.3rem;
+      transition: opacity 0.3s;
+      border-radius: 0.4rem;
+      color: var(--white-color);
+      opacity: 1;
+
+      &:empty {
+        background-image: none;
+        opacity: 0;
       }
 
-      input.bank_account_input {
-        text-align: center;
-        margin-right: 1rem;
-        height: 3.5rem;
-        outline: none;
-        &:invalid {
-          border: 2px solid red;
-          & ~ .validate_account_wrap {
-            &::after {
-              content: "유효한 자리수가 아닙니다.";
-              color: red;
+      &[data-bank_name="카카오뱅크"] {
+        color: var(--font-color);
+        input {
+          color: var(--font-color) !important;
+          border-bottom: 2px solid var(--font-color) !important;
+
+          &::placeholder {
+            color: var(--more-darkgray-color) !important;
+          }
+        }
+      }
+
+      .bank_account_wrap {
+        display: flex;
+        padding: 0 2rem;
+        width: 100%;
+        height: 25.3rem;
+        flex-wrap: wrap;
+
+        .bank_wrap {
+          display: flex;
+          align-items: center;
+          width: 100%;
+
+          img {
+            width: 5rem;
+          }
+          span {
+            text-align: center;
+          }
+        }
+
+        .input_wrap {
+          .bank_account {
+            padding-bottom: 1rem;
+          }
+          input.bank_account_input {
+            background-color: transparent;
+            border: none;
+            color: var(--white-color);
+            border-bottom: 2px solid var(--white-color);
+            padding: 0 1rem;
+            box-sizing: content-box;
+            margin-right: 1rem;
+            height: 3.5rem;
+            outline: none;
+            min-width: calc(2rem * 2);
+            &:invalid {
+              border-bottom: 2px solid var(--pink-color);
+              & ~ .validate_account_wrap {
+                &::after {
+                  content: "유효한 자리수가 아닙니다.";
+                  color: red;
+                }
+              }
+            }
+            &::placeholder {
+              color: var(--lightgray-color);
             }
           }
         }
-        // &:valid {
-        //   border: 2px solid green;
-        // }
-      }
-    }
-
-    .phone_number_wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-      .phone_number {
-        text-align: center;
-        margin-right: 2rem;
       }
 
-      input {
-        padding: 0.8rem 3rem;
+      .phone_number_wrap {
+        margin-bottom: 3rem;
+        .phone_number {
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+        }
+        input.phone_number_input {
+          background-color: transparent;
+          border: none;
+          outline: none;
+          opacity: 0.9;
+          color: var(--white-color);
+          border-bottom: 2px solid var(--white-color);
+          width: 18rem;
+          padding: 0.8rem 3rem;
+
+          &::placeholder {
+            color: var(--lightgray-color);
+          }
+        }
+
+        .validate_text {
+          margin-left: 2.5rem;
+          text-align: end;
+          width: 23rem;
+        }
+        .red {
+          color: var(--pink-color);
+        }
+
+        .green {
+          color: #2db400;
+        }
       }
 
-      .validate_text {
-        margin-left: 2.5rem;
-        text-align: end;
-        width: 23rem;
-      }
-      .red {
-        color: var(--pink-color);
-      }
+      .signature_wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 3rem;
 
-      .green {
-        color: #2db400;
-      }
-    }
+        .signature {
+          text-align: center;
+          margin-right: 3.5rem;
+        }
 
-    .signature_wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 3rem;
+        input {
+          padding: 0.8rem 3rem;
+        }
 
-      .signature {
-        text-align: center;
-        margin-right: 3.5rem;
-      }
+        .validate_text {
+          padding-top: 2rem;
+        }
 
-      input {
-        padding: 0.8rem 3rem;
-      }
+        .red {
+          color: var(--pink-color);
+        }
 
-      .validate_text {
-        padding-top: 2rem;
-      }
-
-      .red {
-        color: var(--pink-color);
-      }
-
-      .green {
-        color: #2db400;
+        .green {
+          color: #2db400;
+        }
       }
     }
 

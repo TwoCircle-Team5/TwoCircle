@@ -2,13 +2,7 @@ import { addAccount } from "../api/account/account_add.js";
 import { checkAccount } from "../api/account/account_add_check.js";
 import { deleteAccount } from "../api/account/account_delete.js";
 import { ableAccount } from "../api/account/account_able_check.js";
-import shinhan from "../../static/image/shinhanbank_logo.png";
-import kBank from "../../static/image/Kbank_logo.png";
-import KBbank from "../../static/image/KBbank_logo.png";
-import kakaoBank from "../../static/image/kakaobank_logo.png";
-import NHBank from "../../static/image/NHbank_logo.png";
-import hanaBank from "../../static/image/hanaBank_logo.png";
-import wooriBank from "../../static/image/wooriBank_logo.png";
+import { bankLogo } from "./bankImage";
 
 export function accountHandler() {
   const sectionEl = document.querySelector(".account");
@@ -16,22 +10,19 @@ export function accountHandler() {
   const modal = document.querySelector(".pop_up");
   const closeBtnEl = document.querySelector(".close_btn");
   const bankSelectArea = document.querySelector(".bank_code_wrap");
-  const signatureInputEl = document.querySelector(".signature_input");
-  const phoneInputEl = document.querySelector(".phone_number_input");
   const addBtnEl = document.querySelector(".add_btn");
   const accountAddBtnEl = document.querySelector(".account_add_btn");
   const accountTerminateBtnEl = document.querySelector(
     ".account_terminate_btn"
   );
   const divEl = document.querySelector(".account_info_wrap");
-  const bankAccountWrap = document.querySelector(".bank_account_wrap");
 
   /**은행 등록시 필요 정보담는 객체*/
   let accountInfo = {
     bankCode: "",
     accountNumber: "",
     phoneNumber: "",
-    signature: false,
+    signature: true,
   };
   /**은행 해지시 필요 정보담는 객체*/
   let deleteCheckInfo = {
@@ -39,21 +30,10 @@ export function accountHandler() {
     signature: false,
   };
 
-  let bankLogo = [
-    { name: "KB국민은행", src: KBbank },
-    { name: "신한은행", src: shinhan },
-    { name: "우리은행", src: wooriBank },
-    { name: "하나은행", src: hanaBank },
-    { name: "케이뱅크", src: kBank },
-    { name: "카카오뱅크", src: kakaoBank },
-    { name: "NH농협은행", src: NHBank },
-  ];
-
   (async () => {
     const banks = await ableAccount();
-    
+
     renderSelectBank(banks);
-    
   })();
 
   function renderSelectBank(banks) {
@@ -83,8 +63,42 @@ export function accountHandler() {
     bankSelectArea.append(...bankList);
   }
 
-  function renderAccountInput(digits) {
-    const divEl = document.createElement("div");
+  function renderInput(digits, name) {
+    const cardTemplate = document.querySelector(".card_template");
+    const containerEl = document.createElement("div");
+    const imgWrapEl = document.createElement("div");
+    const accountWrapEl = document.createElement("div");
+    const imgEl = document.createElement("img");
+    const bankNameTextEl = document.createElement("span");
+    const accountLabel = document.createElement("div");
+    const validateMessage = document.createElement("div");
+
+    const phoneNumberWrap = document.createElement("div");
+    const phoneNumberText = document.createElement("div");
+    const phoneNumberInputEl = document.createElement("input");
+
+    const bank = bankLogo.find((logo) => logo.name === name);
+
+    containerEl.className = "bank_account_wrap";
+
+    accountWrapEl.className = "input_wrap";
+    accountLabel.className = "bank_account";
+    accountLabel.textContent = "계좌번호";
+    imgWrapEl.className = "bank_wrap";
+    bankNameTextEl.textContent = `${bank.name}`;
+
+    validateMessage.className = "validate_account_wrap";
+
+    phoneNumberWrap.className = "phone_number_wrap";
+    phoneNumberText.className = "phone_number";
+    phoneNumberText.textContent = "전화번호";
+
+    phoneNumberInputEl.className = "phone_number_input";
+    phoneNumberInputEl.placeholder = "01012345678";
+
+    cardTemplate.dataset.bank_name = bank.name;
+    cardTemplate.style.backgroundColor = ` ${bank.card}`;
+    imgEl.src = `${bank.svg}`;
     const inputList = digits.map((digit) => {
       const digitInput = document.createElement("input");
       digitInput.className = "bank_account_input";
@@ -92,68 +106,77 @@ export function accountHandler() {
       digitInput.inputMode = "numeric";
       digitInput.pattern = `^[0-9]{${digit}}$`;
       digitInput.placeholder = `${digit}자리`;
-      digitInput.style.width = `calc(${digit}*2rem)`;
+      digitInput.style.width = `calc(${digit} * 1.5rem)`;
+
       return digitInput;
     });
 
-    const accountLabel = document.querySelector(".bank_account");
-    const validateMessage = document.querySelector(".validate_account_wrap");
-    divEl.append(...inputList);
-    bankAccountWrap.replaceChildren(accountLabel, divEl, validateMessage);
-    // validateMessage.prepend(...inputList);
+    imgWrapEl.append(imgEl, bankNameTextEl);
+    accountWrapEl.append(accountLabel, ...inputList);
+    phoneNumberWrap.append(phoneNumberText, phoneNumberInputEl);
+    containerEl.append(
+      imgWrapEl,
+      accountWrapEl,
+      validateMessage,
+      phoneNumberWrap
+    );
+    cardTemplate.replaceChildren(containerEl);
+    cardTemplate.addEventListener("input", inputHandler);
   }
 
   bankSelectArea.addEventListener("change", (e) => {
     const inputRadio = e.target;
     accountInfo.bankCode = inputRadio.id;
-    const { digits } = bankSelectArea.banks.find(
+    const { digits, name } = bankSelectArea.banks.find(
       (bank) => bank.name === inputRadio.value
     );
 
-    digits && renderAccountInput(digits);
+    digits, name && renderInput(digits, name);
   });
 
-  bankAccountWrap.addEventListener("input", (e) => {
-    const targetInput = e.target;
+  const inputHandler = (e) => {
+    const inputEl = e.target;
+    if (!inputEl) {
+      return;
+    }
 
-    const targetDigit = Number(targetInput.dataset.digit);
-    const targetLength = targetInput.value.length;
+    if (e.target.matches(".bank_account_input")) {
+      accountInput(inputEl);
+    }
+    if (e.target.matches(".phone_number_input")) {
+      phoneNumberInput(inputEl);
+    }
+  };
+
+  const accountInput = (inputEl) => {
+    const targetDigit = Number(inputEl.dataset.digit);
+    const inputLength = inputEl.value.length;
     const accountInputs = Array.from(
       document.querySelectorAll(".bank_account_input")
     );
-
-    const startInput = accountInputs.findIndex(
-      (input) => input === targetInput
-    );
+    const startInput = accountInputs.findIndex((input) => input === inputEl);
     const nextInput = accountInputs.length - 1;
 
-    if (targetDigit === targetLength && startInput < nextInput) {
+    if (targetDigit === inputLength && startInput < nextInput) {
       accountInputs[startInput + 1].focus();
       return;
     }
 
     const accountInputsValue = accountInputs.map((input) => {
       const value = input.value;
-      console.log(value);
+
       return value;
     });
 
     const accountNumber = accountInputsValue.join("");
     accountInfo.accountNumber = accountNumber;
-  });
+  };
 
-  /**전화번호 입력 이벤트 함수*/
-  phoneInputEl.addEventListener("input", (e) => {
-    accountInfo.phoneNumber = e.target.value;
-    validatePhoneTest(accountInfo.phoneNumber);
-  });
-
-  /** 서명 입력 이벤트 함수*/
-  signatureInputEl.addEventListener("input", () => {
-    if (signatureInputEl.value.length > 0) {
-      accountInfo.signature = true;
-    }
-  });
+  const phoneNumberInput = (inputEl) => {
+    const phoneNumber = inputEl.value;
+    accountInfo.phoneNumber = phoneNumber;
+    // validatePhoneTest(accountInfo.phoneNumber);
+  };
 
   /** 계좌 추가하기 버튼  이벤트 함수*/
   addBtnEl.addEventListener("click", async () => {
@@ -177,17 +200,16 @@ export function accountHandler() {
   });
 
   accountTerminateBtnEl.addEventListener("click", () => {
-    const checkedInputEl= document.querySelector(
+    const checkedInputEl = document.querySelector(
       '.user_account_info input[type="radio"]:checked'
     );
 
     // const isChecked = accountTerminateBtnEl.dataset.checked
-    const isChecked =  checkedInputEl.checked 
+    const isChecked = checkedInputEl;
     if (isChecked) {
-      
-        const accountId   =checkedInputEl.id
-        const bankName   =checkedInputEl.value
-         renderModal(accountId, bankName)
+      const accountId = checkedInputEl.id;
+      const bankName = checkedInputEl.value;
+      renderModal(accountId, bankName);
       // renderModal(accounts);
     } else if (!isChecked) {
       const message = "해지할 계좌를 선택해 주세요.";
@@ -218,11 +240,11 @@ export function accountHandler() {
   async function renderAccount() {
     const addAccounts = await checkAccount();
 
-    const accountsWrapper = document.querySelector('.account_info_wrap');
-    const renderedAccountListEl = document.querySelector('.account_list');
-    
+    const accountsWrapper = document.querySelector(".account_info_wrap");
+    const renderedAccountListEl = document.querySelector(".account_list");
+
     const listEl = document.createElement("ul");
-    listEl.className = 'account_list';
+    listEl.className = "account_list";
 
     const liEls = addAccounts.accounts.map((account) => {
       const liEl = document.createElement("li");
@@ -233,7 +255,9 @@ export function accountHandler() {
 
       liEl.innerHTML = /*html*/ `
                     <div class ="user_account_info">
-                      <input type="radio" name="bank" id=${account.id} value =${account.bankName}>
+                      <input type="radio" name="bank" id=${account.id} value =${
+        account.bankName
+      }>
                       <label for=${account.id}>
                         <div class="bank_name">은행명: ${account.bankName}</div>
                       </label>
@@ -252,29 +276,24 @@ export function accountHandler() {
 
       return liEl;
     });
-  
+
     listEl.append(...liEls);
-   
-    if(renderedAccountListEl) {
+
+    if (renderedAccountListEl) {
       renderedAccountListEl.replaceChildren();
       renderedAccountListEl.append(...liEls);
 
-   
       return;
     }
 
-    accountsWrapper.append(listEl)
-
- 
+    accountsWrapper.append(listEl);
   }
 
   /*계좌 해지 버튼 누를시 나오는  서명하는 모달창*/
   function renderModal(accountId, bankName) {
-   
     const modalDivEl = document.createElement("div");
 
-  
-    modalDivEl.dataset.id = accountId
+    modalDivEl.dataset.id = accountId;
     modalDivEl.classList = "modal";
     dimmedLayer.classList.remove("_hidden");
     modalDivEl.innerHTML = /*html*/ `
@@ -318,11 +337,11 @@ export function accountHandler() {
   const deleteAccountHandler = async (modalDiv) => {
     const targetId = modalDiv.dataset.id;
     const signatureInputEl = modalDiv.querySelector("input");
-    const errorText = modalDiv.querySelector('.error_text')
+    const errorText = modalDiv.querySelector(".error_text");
     if (signatureInputEl.value.length > 0) {
       deleteCheckInfo.signature = true;
-    }else {
-      errorText.textContent = `서명 필요합니다.`
+    } else {
+      errorText.textContent = `서명 필요합니다.`;
     }
     deleteCheckInfo.accountId = targetId;
     modalDiv.classList.add("_hidden");
