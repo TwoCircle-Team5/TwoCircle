@@ -14,7 +14,8 @@ export function productUpdateHandler(id) {
   const soldoutEl = document.querySelector('.soldout_btn');
   const discountEl = document.querySelector('.product_discount');
   const product_update = document.querySelector('.product_update');
-
+  const dot = document.querySelector(".dot-wrap");
+  
   let name = '';
   let price = '';
   let text = '';
@@ -30,7 +31,7 @@ export function productUpdateHandler(id) {
   })();
 
   function renderProduct(data) {
-    const dot = document.querySelector(".dot-wrap");
+    
     name = nameEl.value = data.title;
     price = priceEl.value = data.price;
     text = textEl.value = data.description;

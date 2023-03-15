@@ -30,7 +30,7 @@
     height: 45rem;
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    margin: 1rem;
     justify-content: center;
     align-items: center;
   }
@@ -202,7 +202,11 @@
           background-color: var(--pink-color);
           color: #eee;
         }
-      }   
+      }
+      .active-link{
+        background-color: var(--pink-color);
+        color: #eee;
+      }
     }
   }
 
@@ -237,6 +241,7 @@
         @include summary-item();
       }
       img{
+        margin: 2rem;
         width:5rem;
         height: 5rem;
       }

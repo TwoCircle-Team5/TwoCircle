@@ -34,5 +34,8 @@ export function wishRender() {
       </div>
     </div>
   </section>`;
-  renderWishList(wishList);
+  if(!isEmpty) {
+
+    renderWishList(wishList);
+  }
 }

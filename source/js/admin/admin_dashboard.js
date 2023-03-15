@@ -47,6 +47,8 @@ export async function dashBoardHandler() {
     ],
   };
 
+  // 그리드 색상 변경
+  Chart.defaults.borderColor = "var(--dashBoard-border)";
   // 차트 객체 생성
   const myChart = new Chart(canvas, {
     type: "bar",

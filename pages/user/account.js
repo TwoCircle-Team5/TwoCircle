@@ -8,16 +8,12 @@ export function accountRender(){
     <div class="pop_up _hidden">
       <div class="pop_up_wrap">
         <button class="close_btn">x</button>
-        <div class="title">계좌 추가하기</div>
+        <div class="title">계좌 연결</div>
         <div class="bank_code_wrap">
-          <div class="bank_code">은행코드</div>
-          <select class="bank_code_select">
-            <option selected="selected">은행을 선택해주세요</option>
-          </select>
         </div>
         <div class="bank_account_wrap">
           <div class="bank_account">계좌번호</div>
-          <input type="text" class="bank_account_input" />
+          <div class="bank_input_wrap"></div>
           <div class="validate_account_wrap"></div>
         </div>
         <div class="phone_number_wrap">
@@ -45,8 +41,8 @@ export function accountRender(){
         <div class="account_info_wrap"></div>
 
         <div class="btn_wrap">
-          <div class="account_change_btn_wrap">
-            <button class="account_change_btn">계좌 변경하기</button>
+          <div class="account_terminate_btn_wrap">
+            <button class="account_terminate_btn">계좌 해지하기</button>
           </div>
           <div class="account_add_btn_wrap">
             <button class="account_add_btn">계좌 추가하기</button>
@@ -55,5 +51,6 @@ export function accountRender(){
       </div>
     </div>
   </section>`
+  
   accountHandler()
 }
