@@ -1,6 +1,6 @@
 @mixin filterBtn {
   border: 0.063rem solid var(--gray-color);
-  background-color: var(--white-color);
+  background-color: var(--border-line);
   font-size: 1.5rem;
   height: 4rem;
   width: 8rem;
@@ -36,10 +36,8 @@
 
 .material-symbols-outlined {
   display: flex;
-  background-color: var(--white-color);
   font-size: 1.6rem;
   cursor: pointer;
-  padding-left: 2rem;
 }
 
 
@@ -181,7 +179,7 @@
       width: inherit;
       border-top: 1px solid black;
       //border-bottom: 1px solid black;
-      background-color: var(--more-lightgray-color);
+      background-color: var(--border-line);
       //margin-left: 4rem;
     }
 
@@ -242,7 +240,7 @@
       }
 
       .no_list_container {
-        display: flex;
+        display: none;
         justify-content: center;
         align-items: center;
         width: inherit;
@@ -274,6 +272,11 @@
               height: 9rem;
               margin-right: 2rem;
             }
+          }
+
+          .list_item_orderNumber {
+            width: 9.5rem;
+            //text-align: center;
           }
 
           .list_item_btn {
@@ -332,25 +335,44 @@
           display: inline-block;
           text-align: center;
           line-height: 2.5;
-          color: #4e4e4e;
         }
 
         .page-link {
           border: 0.063rem solid var(--gray-color);
-          background-color: var(--white-color);
+          background-color: var(--border-line);
           height: 4rem;
           width: 4rem;
           margin: 1rem 1rem 0 0;
           cursor: pointer;
           font-size: 1.6rem;
           text-align: center;
-          color: #4e4e4e;
+        }
+
+        .arrow-link {
+          height: 4rem;
+          width: 4rem;
+          margin: 1rem 1rem 0 0;
+          cursor: pointer;
+          font-size: 1.6rem;
+          text-align: center;
+          color: var(--font-color)
         }
 
         .active-link {
           background-color: #FF597B;
           border-color: #FF597B;
           color: #FFFFFF;
+        }
+
+        .arrow-link-unactive {
+          height: 4rem;
+          width: 4rem;
+          margin: 1rem 1rem 0 0;
+          cursor: text;
+          font-size: 1.6rem;
+          text-align: center;
+          color: #c7c5c5;
+          pointer-events: none;
         }
       }
     }

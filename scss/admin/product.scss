@@ -1,4 +1,7 @@
 .product_admin_wrap {
+  .product_left {
+    width: 40rem;
+  }
   img {
     display: block;
     width: 100%;
@@ -30,7 +33,8 @@
     }
   }
 
-  .tag_box {
+  .tag_box,
+  .main_tag_box {
     margin-bottom: 2rem;
     span {
       display: block;
@@ -40,22 +44,26 @@
     }
     &_list {
       display: flex;
+      flex-wrap: wrap;
       > p {
         line-height: 3rem;
-        background: var(--font-color);
+        background: var(--tag-color);
         color: var(--white-color);
         padding: 0 1rem;
         margin-right: 1rem;
+        margin-bottom: 1rem;
       }
     }
   }
 
   .product_detail {
-    margin-left: 5rem;
+    display: block;
+    width: 65rem;
+    margin-left: 10rem;
     font-size: 2rem;
     font-weight: 700;
     &_img {
-      height: 70rem;
+      height: 90rem;
       margin-top: 1rem;
       overflow: auto;
     }

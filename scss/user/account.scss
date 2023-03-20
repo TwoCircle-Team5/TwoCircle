@@ -1,4 +1,3 @@
-
 .dimmed_layer {
   position: fixed;
   top: 0;
@@ -6,6 +5,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(#000, 0.8);
+  z-index: 3;
 }
 
 .pop_up {
@@ -15,10 +15,11 @@
   transform: translate(-50%, -50%);
   background-color: #ffffff;
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
+  z-index: 3;
 
   /* 임시 지정 */
-  width: 50rem;
-  height: 60rem;
+  width: 55rem;
+  height: 70rem;
 
   &_wrap {
     display: flex;
@@ -28,14 +29,14 @@
     flex-direction: column;
     padding: 2rem;
     font-size: 1.8rem;
-    width: 40rem;
+    // width: 48rem;
     margin: 2rem auto;
 
     .close_btn {
       border: none;
       position: absolute;
       top: 0.5rem;
-      left: 39rem;
+      right: 3rem;
       background-color: transparent;
       font-size: 3rem;
       cursor: pointer;
@@ -43,7 +44,7 @@
 
     .title {
       margin-top: 2rem;
-      margin-bottom: 8rem;
+      margin-bottom: 3rem;
       font-size: 3rem;
       text-align: center;
       font-weight: var(--font-bold);
@@ -51,100 +52,188 @@
 
     .bank_code_wrap {
       display: flex;
-      justify-content: center;
+      flex-wrap: wrap;
       align-items: center;
       margin-bottom: 3rem;
-      width: 100%;
+      width: 42rem;
+      margin: 0 auto;
 
       .bank_code {
-        text-align: center;
+        display: flex;
+        width: 12rem;
+        height: 5rem;
         margin-right: 2rem;
-      }
+        border: 0.1rem solid var(--gray-color);
+        border-radius: 0.4rem;
+        margin-bottom: 1rem;
 
-      .bank_code_select {
-        width: 23rem;
-        text-align: center;
-        padding: 0.8rem 0;
+        input {
+          display: none;
+          &:checked + label {
+            border: 1px solid var(--pink-color);
+            border-radius: 0.4rem;
+          }
+        }
+        label {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+
+          div {
+            width: 10rem;
+
+            img {
+              display: block;
+              object-fit: cover;
+              width: 100%;
+              &.isDisable {
+                filter: grayscale(1);
+              }
+            }
+          }
+        }
       }
     }
 
-    .bank_account_wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-      .bank_account {
-        text-align: center;
-        margin-right: 2rem;
+    .card_template {
+      width: 42rem;
+      min-height: 25.3rem;
+      transition: opacity 0.3s;
+      border-radius: 0.4rem;
+      color: var(--white-color);
+      opacity: 1;
+
+      &:empty {
+        background-image: none;
+        opacity: 0;
       }
 
-      input {
-        padding: 0.8rem 3rem;
-      }
-    }
+      &[data-bank_name="카카오뱅크"] {
+        color: var(--font-color);
+        input {
+          color: var(--font-color) !important;
+          border-bottom: 2px solid var(--font-color) !important;
 
-    .phone_number_wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-      .phone_number {
-        text-align: center;
-        margin-right: 2rem;
+          &::placeholder {
+            color: var(--more-darkgray-color) !important;
+          }
+        }
       }
 
-      input {
-        padding: 0.8rem 3rem;
-       
+      .bank_account_wrap {
+        display: flex;
+        padding: 0 2rem;
+        width: 100%;
+        height: 25.3rem;
+        flex-wrap: wrap;
+
+        .bank_wrap {
+          display: flex;
+          align-items: center;
+          width: 100%;
+
+          img {
+            width: 5rem;
+          }
+          span {
+            text-align: center;
+          }
+        }
+
+        .input_wrap {
+          .bank_account {
+            padding-bottom: 1rem;
+          }
+          input.bank_account_input {
+            background-color: transparent;
+            border: none;
+            color: var(--white-color);
+            border-bottom: 2px solid var(--white-color);
+            padding: 0 1rem;
+            box-sizing: content-box;
+            margin-right: 1rem;
+            height: 3.5rem;
+            outline: none;
+            min-width: calc(2rem * 2);
+            &:invalid {
+              border-bottom: 2px solid var(--pink-color);
+              & ~ .validate_account_wrap {
+                &::after {
+                  content: "유효한 자리수가 아닙니다.";
+                  color: red;
+                }
+              }
+            }
+            &::placeholder {
+              color: var(--lightgray-color);
+            }
+          }
+        }
       }
 
-      .validate_text {
-       margin-left: 2.5rem;
-       text-align: end;
-       width: 23rem;
-      }
-      .red {
-        color: var(--pink-color);
-      }
+      .phone_number_wrap {
+        margin-bottom: 3rem;
+        .phone_number {
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+        }
+        input.phone_number_input {
+          background-color: transparent;
+          border: none;
+          outline: none;
+          opacity: 0.9;
+          color: var(--white-color);
+          border-bottom: 2px solid var(--white-color);
+          width: 18rem;
+          padding: 0.8rem 3rem;
 
-      .green {
-       color: #2DB400;
-      }
+          &::placeholder {
+            color: var(--lightgray-color);
+          }
+        }
 
+        .validate_text {
+          margin-left: 2.5rem;
+          text-align: end;
+          width: 23rem;
+        }
+        .red {
+          color: var(--pink-color);
+        }
 
-    
-    }
-
-    .signature_wrap {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 3rem;
-
-      .signature {
-        text-align: center;
-        margin-right: 3.5rem;
-      }
-
-      input {
-        padding: 0.8rem 3rem;
-      }
-      
-      .validate_text {
-        padding-top: 2rem;
+        .green {
+          color: #2db400;
+        }
       }
 
-      .red {
-        color: var(--pink-color);
-      }
+      .signature_wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 3rem;
 
-      .green {
-        color: #2DB400;
+        .signature {
+          text-align: center;
+          margin-right: 3.5rem;
+        }
+
+        input {
+          padding: 0.8rem 3rem;
+        }
+
+        .validate_text {
+          padding-top: 2rem;
+        }
+
+        .red {
+          color: var(--pink-color);
+        }
+
+        .green {
+          color: #2db400;
+        }
       }
     }
 
@@ -213,9 +302,26 @@
       padding: 4rem 3rem;
       margin: 0 auto 2rem;
 
+      input[type="checkbox"] {
+        width: 1.5rem;
+        height: 1.5rem;
+        appearance: none;
+        border-radius: 50%;
+        border: 0.1rem solid #c3b7b7;
+        background-color: var(--white-color);
+        margin-right: 10px;
+      }
+
+      input[type="checkbox"]:checked {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 50%;
+        background-color: var(--pink-color);
+      }
+
       .bank_name {
         font-size: 1.6rem;
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
       }
 
       .account_holder {
@@ -234,8 +340,8 @@
       margin-left: 82.9rem;
       margin-top: 2rem;
 
-      .account_change_btn_wrap {
-        .account_change_btn {
+      .account_terminate_btn_wrap {
+        .account_terminate_btn {
           border: 0.2px solid var(--font-color);
           background-color: transparent;
           color: var(--font-color);
@@ -280,20 +386,62 @@
 
 .account {
   .modal {
+    display: flex;
+    justify-content: center;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #ffffff;
     box-shadow: 0 2px 7px rgba(0, 0, 0, 0.3);
-
+    z-index: 3;
     /* 임시 지정 */
     width: 50rem;
     height: 40rem;
-
-    input {
-      margin: 2rem;
-      padding: 0.8rem 3rem;
+    .signature_wrap {
+      .close_btn {
+        position: absolute;
+        border: 1px solid transparent;
+        background-color: transparent;
+        font-size: 1.5rem;
+        right: 3rem;
+        top: 2rem;
+      }
+      .warning_text {
+        font-weight: var(--font-bold);
+        font-size: 1.8rem;
+        text-align: center;
+      }
+      .title {
+        margin-top: 2rem;
+        margin-bottom: 8rem;
+        font-size: 3rem;
+        text-align: center;
+        font-weight: var(--font-bold);
+      }
+      input {
+        margin: 2rem;
+        padding: 0.8rem 3rem;
+      }
+      .btn_wrap {
+        text-align: center;
+        .account_signature_btn {
+          border: 0.2px solid var(--font-color);
+          background-color: transparent;
+          color: var(--font-color);
+          font-weight: var(--font-basic);
+          font-size: 1.8rem;
+          padding: 1rem 2rem;
+          width: 28rem;
+          height: 6rem;
+          cursor: pointer;
+          &:hover {
+            border: 0.2rem solid var(--pink-color);
+            color: var(--pink-color);
+            font-weight: var(--font-bold);
+          }
+        }
+      }
     }
   }
 }

@@ -7,7 +7,7 @@ export async function productDetailRender(data) {
   app.innerHTML = /* html */ `
     <div class="wrap_container">
       <div class="product_detail">
-        <div class="dot-wrap">
+        <div class="dot-wrap dot_loading">
           <div class="dot-spinner"></div>
         </div>
         <div class="product_detail_inner">
@@ -19,16 +19,11 @@ export async function productDetailRender(data) {
           </div>
           <div class="product_content">
             <!-- 제품 이미지 -->
-            <div class="container_content_productImg">
-            <img src="${id.thumbnail}" alt="상품이미지">
-          </div>
+            <div class="container_content_productImg"></div>
             <!-- 제품 정보 -->
             <div class="product_info">
               <div class="title">
-              <div class="product_info_title">${id.title.replace(
-                /\/.*/,
-                ""
-              )}</div>
+              <div class="product_info_title">${id.title.replace(/\/.*/, "")}</div>
               <div class="product_info_code"></div>
             </div>
               <!-- 평점, 찜 유뮤, share -->
@@ -57,9 +52,7 @@ export async function productDetailRender(data) {
                       <button class="btn_plus">+</button>
                     </div>
                     <div class="option_price">
-                      <div class="option_content_price">${id.price
-                        .toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+                      <div class="option_content_price">${id.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
                       </div>
                       <div class="option_content_discount"></div>
                     </div>
@@ -91,9 +84,7 @@ export async function productDetailRender(data) {
               </div>
             </div>
           </div>
-          <div class="photo">
-            <img src="${id.photo}" alt="상세이미지">
-          </div>
+          <div class="photo"></div>
         </div>
       </div>
     </div>

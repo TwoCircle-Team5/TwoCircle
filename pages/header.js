@@ -1,7 +1,10 @@
-import { router } from '../source/route';
+import { eventBadgeHandler } from '../source/js/event_badge';
+import { headerHandler } from '../source/js/header';
+
 
 export function headerRender() {
   const wrap = document.querySelector('#wrap');
+
   wrap.innerHTML = /*html*/ `
   <header>
       <div class="header_top">
@@ -22,31 +25,32 @@ export function headerRender() {
         <div class="inner">
           <h1 class="logo">
             <a href="/" data-navigo>
-              <img class="header_logo" src="../image/main_logo.svg" alt="로고" />
+              <img class="header_logo dark_logo" src="../image/logo_dark.svg" alt="다크모드 로고" />
+              <img class="header_logo light_logo" src="../image/main_logo.svg" alt="기본 로고" />
             </a>
           </h1>
           <form class="search">
             <input type="text" />
             <button>
-              <img class="search_icon" src="../image/search_icon.svg" alt="검색" />
+              <img class="search_icon filter_icon" src="../image/search_icon.svg" alt="검색" />
             </button>
           </form>
           <ul class="header_right">
             <li>
               <a id="mypageBtn" href="/mypage" data-navigo>
-                <img src="../image/mypage_icon.svg" alt="마이페이지" />
+                <img class="filter_icon" src="../image/mypage_icon.svg" alt="마이페이지" />
               </a>
             </li>
             <li>
               <a href="/cart" data-navigo>
                 <span class="cart_num">0</span>
-                <img src="../image/cart_icon.svg" alt="장바구니" />
+                <img class="filter_icon" src="../image/cart_icon.svg" alt="장바구니" />
               </a>
             </li>
             <li>
               <a href="/mypage/wish" data-navigo>
                 <span class="heart_num">0</span>
-                <img src="../image/heart_icon.svg" alt="찜하기" />
+                <img class="filter_icon" src="../image/heart_icon.svg" alt="찜하기" />
               </a>
             </li>
           </ul>
@@ -80,44 +84,48 @@ export function headerRender() {
           <p class="team">TEAM5<br><span>23.01.30<br>~ ING</span></p>
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/110139098?v=4" alt="">
-              <p>박희수</p>
+              <a href="https://github.com/Nevacat" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/110139098?v=4" alt="박희수 프로필">
+                <p>박희수</p>
+              </a>
             </div>
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/100131415?v=4" alt="">
-              <p>김선미</p>
+              <a href="https://github.com/seon-mikim" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/100131415?v=4" alt="김선미 프로필">
+                <p>김선미</p>
+              </a>
             </div>
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/71622691?v=4" alt="">
-              <p>송지윤</p>
+              <a href="https://github.com/jiyoon29" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/71622691?v=4" alt="송지윤 프로필">
+                <p>송지윤</p>
+              </a>
             </div>
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/83224463?v=4" alt="">
-              <p>장현준</p>
+              <a href="https://github.com/hyeon17" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/83224463?v=4" alt="장현준 프로필">
+                <p>장현준</p>
+              </a>
             </div>
             <div class="swiper-slide">
-              <img src="https://avatars.githubusercontent.com/u/69203535?v=4" alt="">
-              <p>박현준</p>
+              <a href="https://github.com/johnphjkr" target="_blank">
+                <img src="https://avatars.githubusercontent.com/u/69203535?v=4" alt="박현준 프로필">
+                <p>박현준</p>
+              </a>
             </div>
           </div>
           <div class="swiper-scrollbar"></div>
         </div>
       </div>
       <div class="up_button">
-        <a href="javascript:void(0)" class="resently">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16ZM8.00078 12.8C5.34981 12.8 3.20078 10.651 3.20078 8C3.20078 5.34903 5.34981 3.2 8.00078 3.2C10.6517 3.2 12.8008 5.34903 12.8008 8C12.8008 10.651 10.6517 12.8 8.00078 12.8Z"
-              fill="url(#paint0_linear)"></path>
-            <defs>
-              <linearGradient id="paint0_linear" x1="1" y1="3.5" x2="14.5" y2="13" gradientUnits="userSpaceOnUse">
-                <stop stop-color="#0076F7"></stop>
-                <stop offset="0.484375" stop-color="#6E25DD"></stop>
-                <stop offset="1" stop-color="#8837F5"></stop>
-              </linearGradient>
-            </defs>
-          </svg>최근 본 상품</a>
-        <a href="javascript:void(0)" class="scroll_top">TOP</a>
+        <div class="mode">
+          <span class="mode_name">DARK</span>
+          <input type="checkbox" id="toggle" hidden> 
+            <label for="toggle" class="toggleSwitch">
+              <span class="toggleButton"></span>
+          </label>
+        </div>
+        <button class="scroll_top">TOP</button>
       </div>
     </section>
     <div id="app"></div>
@@ -125,7 +133,10 @@ export function headerRender() {
       <div class="footer_container">
         <div class="inner">
           <div class="footer_left">
-            <h2><img src="../image/main_logo.svg" alt=""/></h2>
+            <h2>
+              <img class="light_logo" src="../image/main_logo.svg" alt="Logo Image"/>
+              <img class="dark_logo" src="../image/logo_dark.svg" alt="Logo Image"/>
+            </h2>
             <p>
               <a href="#">개인정보처리방침</a>
               <a href="#">이용약관</a>
@@ -171,7 +182,7 @@ export function headerRender() {
               <h3>SNS</h3>
               <ul class="footer_sns">
                 <li class="product_list_item">
-                  <img src="../image/kcp_icon.png" alt="" />
+                  <img src="../image/kcp_icon.png" alt="TwoCircle_logo" />
                 </li>
                 <li class="product_list_item">
                   <a href="https://www.facebook.com" class="facebook"> </a>
@@ -195,54 +206,6 @@ export function headerRender() {
       </div>
     </footer>
   `;
-
-  // 검색기능
-  const search = document.querySelector('.search');
-  const searchInput = document.querySelector('.search input');
-
-  search.addEventListener('submit', (e) => {
-    e.preventDefault();
-    router.navigate(`product_search/${searchInput.value}`);
-  });
-
-  // 카트, 찜하기 개수
-  const cartNum = document.querySelector('.cart_num');
-  const heartNum = document.querySelector('.heart_num');
-
-  if (localStorage.getItem('basket')) {
-    cartNum.innerText = JSON.parse(localStorage.getItem('basket')).length;
-  }
-  if (localStorage.getItem('wish')) {
-    heartNum.innerText = JSON.parse(localStorage.getItem('wish')).length;
-  }
-  // TOP
-  const top = document.querySelector(".scroll_top")
-  top.addEventListener("click",()=>{
-    window.scrollTo({top : 0, behavior: 'smooth'})
-  })
-  // 이벤트 베너
-  const eventBanner = new Swiper('.event-swiper', {
-    width: "100",
-    loop:true,
-    autoplay:true,
-    scrollbar: {
-      el: ".swiper-scrollbar"
-    },
-  });
-  // 스크롤 이벤트
-  const eventSection = document.querySelector(".event")
-  window.addEventListener('scroll',_.throttle(()=>{
-    console.log(window.scrollY)
-    if(window.scrollY<330){
-      gsap.to(eventSection,.4,{
-        opacity:0,
-        display:'none'
-      })
-    }else{
-      gsap.to(eventSection,.4,{
-        opacity:1,
-        display:'block'
-      })
-    }
-  },300))
+  headerHandler()
+  eventBadgeHandler()
 }

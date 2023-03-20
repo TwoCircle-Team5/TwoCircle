@@ -23,251 +23,251 @@
   margin-bottom: 1rem;
 }
 
-#wrap {
-  .wrap_container {
+
+.wrap_container {
+  display: flex;
+  margin-top: 3rem;
+  justify-content: center;
+
+  .payment {
     display: flex;
-    margin: 3rem 0;
-    justify-content: center;
 
-    .payment {
+    img {
+      display: block;
+      width: 100%;
+    }
+
+    h2 {
+      width: 100%;
+      line-height: 4.6rem;
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-bottom: 4rem;
+    }
+
+    .payment_inner {
       display: flex;
+      max-width: 134rem;
+      margin: 0 auto;
+      padding: 0 3rem;
 
-      img {
-        display: block;
-        width: 100%;
-      }
-
-      h2 {
-        width: 100%;
-        line-height: 4.6rem;
-        font-size: 3.2rem;
-        font-weight: 700;
-        margin-bottom: 4rem;
-      }
-
-      .payment_inner {
+      // 주문정보
+      .inner_orderinfo {
         display: flex;
-        max-width: 134rem;
-        margin: 0 auto;
-        padding: 0 3rem;
+        flex-direction: column;
+        width: 70rem;
 
-        // 주문정보
-        .inner_orderinfo {
+        // 주문상품 상단 바
+        .orderinfo_title_navbar {
+          @include title;
+        }
+
+        .orderinfo_navbar {
+          @include window_default;
+          font-size: 1.8rem;
+          border-bottom: 1px solid var(--black-color);
+        }
+
+        .orderinfo_navbar>div {
+          @include window_default;
+          width: 15rem;
+          padding: 1.5rem 0;
+        }
+
+        // 주문상품 리스트
+        .orderinfo_list {
+          display: flex;
+          justify-content: center;
+          margin-top: 2rem;
+
+          .list_image {
+            display: flex;
+
+            img {
+              width: 9rem;
+              height: 9rem;
+            }
+          }
+        }
+
+        .orderinfo_list>div {
+          @include window_default;
+          width: 15rem;
+          margin: 0 auto;
+        }
+
+        .orderinfo_title_orderer {
+          @include title;
+        }
+
+        // 주문자 정보
+        .orderinfo_orderer {
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          padding: 1.5rem 0;
+          padding-bottom: 5rem;
+
+          .orderinfo_name,
+          .orderinfo_email,
+          .orderinfo_account {
+            @include order_info_style;
+          }
+
+          .orderinfo_name {
+            .orderinfo_name_text {
+              margin-left: 7rem;
+              font-size: 1.6rem;
+            }
+          }
+
+          .orderinfo_email {
+            .orderinfo_email_text {
+              margin-left: 5rem;
+              font-size: 1.6rem;
+            }
+          }
+
+          .orderinfo_account {
+            .account_text {
+              display: flex;
+              margin-right: 1rem;
+              align-items: center;
+              width: 9rem;
+            }
+
+            .account_select {
+              display: flex;
+              width: 30em;
+              height: 4rem;
+            }
+
+            .account_search {
+              @include window_default;
+              height: 4rem;
+              width: 12rem;
+              margin: 0 2rem;
+              background-color: var(--pink-color);
+              color: var(--white-color);
+              border: transparent;
+            }
+          }
+        }
+
+        .user_account_info {
           display: flex;
           flex-direction: column;
-          width: 70rem;
+          border: 0.2rem solid var(--lightgray-color);
+          width: 50rem;
+          height: 30rem;
+          padding: 2rem 3rem;
+          margin: 2rem 0 0 5rem;
 
-          // 주문상품 상단 바
-          .orderinfo_title_navbar {
-            @include title;
-          }
-
-          .orderinfo_navbar {
-            @include window_default;
-            font-size: 1.8rem;
-            border-bottom: 1px solid var(--black-color);
-          }
-
-          .orderinfo_navbar>div {
-            @include window_default;
-            width: 15rem;
-            padding: 1.5rem 0;
-          }
-
-          // 주문상품 리스트
-          .orderinfo_list {
+          .bank {
             display: flex;
-            justify-content: center;
-            margin-top: 2rem;
+            flex-direction: column;
 
-            .list_image {
+            .bank_name {
               display: flex;
+              font-size: 2rem;
+              margin-bottom: 3rem;
+              justify-content: space-between;
+            }
+
+            .account_number,
+            .bank_balance {
+              display: flex;
+              margin-bottom: 2rem;
+              font-size: 1.6rem;
+              justify-content: space-between;
+            }
+          }
+
+          .bank_card_wrap {
+            height: 15rem;
+            padding: 2rem;
+
+            .bank_card {
+              height: 13rem;
+              display: flex;
+              justify-content: center;
 
               img {
-                width: 9rem;
-                height: 9rem;
-              }
-            }
-          }
-
-          .orderinfo_list>div {
-            @include window_default;
-            width: 15rem;
-            margin: 0 auto;
-          }
-
-          .orderinfo_title_orderer {
-            @include title;
-          }
-
-          // 주문자 정보
-          .orderinfo_orderer {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            padding: 1.5rem 0;
-            padding-bottom: 5rem;
-
-            .orderinfo_name,
-            .orderinfo_email,
-            .orderinfo_account {
-              @include order_info_style;
-            }
-
-            .orderinfo_name {
-              .orderinfo_name_text {
-                margin-left: 7rem;
-                font-size: 1.6rem;
-              }
-            }
-
-            .orderinfo_email {
-              .orderinfo_email_text {
-                margin-left: 5rem;
-                font-size: 1.6rem;
-              }
-            }
-
-            .orderinfo_account {
-              .account_text {
-                display: flex;
-                margin-right: 1rem;
-                align-items: center;
-                width: 9rem;
-              }
-
-              .account_select {
-                display: flex;
-                width: 30em;
-                height: 4rem;
-              }
-
-              .account_search {
-                @include window_default;
-                height: 4rem;
-                width: 12rem;
-                margin: 0 2rem;
-                background-color: var(--pink-color);
-                color: var(--white-color);
-                border: transparent;
-              }
-            }
-          }
-
-          .user_account_info {
-            display: flex;
-            flex-direction: column;
-            border: 0.2rem solid var(--lightgray-color);
-            width: 50rem;
-            height: 30rem;
-            padding: 2rem 3rem;
-            margin: 2rem 0 0 5rem;
-
-            .bank {
-              display: flex;
-              flex-direction: column;
-
-              .bank_name {
-                display: flex;
-                font-size: 2rem;
-                margin-bottom: 3rem;
-                justify-content: space-between;
-              }
-
-              .account_number,
-              .bank_balance {
-                display: flex;
-                margin-bottom: 2rem;
-                font-size: 1.6rem;
-                justify-content: space-between;
-              }
-            }
-
-            .bank_card_wrap {
-              height: 15rem;
-              padding: 2rem;
-
-              .bank_card {
-                height: 13rem;
-                display: flex;
-                justify-content: center;
-                img{
-                  width: 15rem;
-                  height: 10rem;
-                }
+                width: 15rem;
+                height: 10rem;
               }
             }
           }
         }
       }
     }
+  }
 
-    // 결제정보요약
-    .inner_summary {
-      position: sticky;
-      top: 18rem;
+  // 결제정보요약
+  .inner_summary {
+    position: sticky;
+    top: 18rem;
+    display: flex;
+    flex-direction: column;
+    width: 35rem;
+    height: 40rem;
+    background-color: var(--border-line);
+    padding: 3rem;
+    margin: 7rem 0 0 12rem;
+
+    .summary_info {
       display: flex;
       flex-direction: column;
-      width: 35rem;
-      height: 40rem;
-      background-color: var(--more-lightgray-color);
-      padding: 3rem;
-      margin: 7rem 0 0 12rem;
+      justify-content: space-between;
+      height: 20rem;
 
-      .summary_info {
-        display: flex;
-        flex-direction: column;
+      .info_totalprice {
         justify-content: space-between;
-        height: 20rem;
+      }
 
-        .info_totalprice {
-          justify-content: space-between;
-        }
+      .info_totaldiscount {
+        justify-content: space-between;
+        border-bottom: 1px solid var(--black-color);
+        padding-bottom: 3rem;
 
-        .info_totaldiscount {
-          justify-content: space-between;
-          border-bottom: 1px solid var(--black-color);
-          padding-bottom: 3rem;
-
-          .info_totaldiscount_text {
-            color: red;
-          }
-        }
-
-        .info_totalpayment {
-          justify-content: space-between;
-
-          .info_totalpayment_text {
-            font-weight: var(--font-bold);
-
-          }
+        .info_totaldiscount_text {
+          color: red;
         }
       }
 
-      .summary_info>div {
-        display: flex;
-        height: 3rem;
+      .info_totalpayment {
+        justify-content: space-between;
+
+        .info_totalpayment_text {
+          font-weight: var(--font-bold);
+
+        }
+      }
+    }
+
+    .summary_info>div {
+      display: flex;
+      height: 3rem;
+    }
+
+    .summary_btn {
+      display: flex;
+      flex-direction: column;
+
+      .btn_payment {
+        background-color: var(--pink-color);
+        color: var(--white-color);
+        border: transparent;
+        height: 4rem;
+        margin: 2rem 0;
+        cursor: pointer;
       }
 
-      .summary_btn {
-        display: flex;
-        flex-direction: column;
-
-        .btn_payment {
-          background-color: var(--pink-color);
-          color: var(--white-color);
-          border: transparent;
-          height: 4rem;
-          margin: 2rem 0;
-          cursor: pointer;
-        }
-
-        .btn_cancel {
-          height: 4rem;
-          cursor: pointer;
-          border: 1px solid var(--black-color);
-          background-color: #fff;
-        }
+      .btn_cancel {
+        height: 4rem;
+        cursor: pointer;
+        border: 1px solid var(--black-color);
+        background-color: var(--body-bg);
       }
     }
   }

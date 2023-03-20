@@ -3,6 +3,9 @@ import { userlist } from "../../api/products/admin/user_list_api.js";
 export async function userListHandler() {
   const users = await userlist();
   const dot = document.querySelector(".dot-wrap");
+  const adminUserListEl = document.querySelector(".admin_userlist");
+  
+  // 유저 리스트
   const liEl = users.map((list, index) => {
     const listEl = document.createElement("div");
     listEl.classList.add("list");
@@ -18,6 +21,7 @@ export async function userListHandler() {
     numberEl.innerHTML = `${index + 1}`;
     nameEl.innerHTML = `${list.displayName}`;
     emailEl.innerHTML = `${list.email}`;
+    // 프로필 이미지가 없을 경우
     if (list.profileImg === null) {
       list.profileImg = "https://via.placeholder.com/200x200?text=NO+IMAGE";
     }
@@ -26,7 +30,7 @@ export async function userListHandler() {
     listEl.append(numberEl, nameEl, emailEl, profileEl);
     return listEl;
   });
-  const adminUserListEl = document.querySelector(".admin_userlist");
+ 
   adminUserListEl.append(...liEl);
   dot.style.display = "none";
 }

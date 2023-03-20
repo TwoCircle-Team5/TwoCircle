@@ -7,7 +7,7 @@
 
   .admin_list_wrap {
     padding: 3rem 0;
-    background: var(--white-color);
+    background: var(--nav-bg);
     border-radius: 0.5rem;
   }
 
@@ -20,23 +20,30 @@
     align-items: center;
     width: 100%;
     text-align: center;
+
     input {
       margin: 0 2rem;
     }
+
     :nth-child(2) {
       width: 7%;
     }
+
     :nth-child(3) {
       width: 10%;
     }
+
     :nth-child(4) {
       width: 55%;
     }
+
     :nth-child(5) {
       width: 15%;
     }
+
     :nth-child(6) {
       width: 15%;
+
     }
   }
 
@@ -44,23 +51,63 @@
     display: block;
     width: 100%;
   }
-  
+
   .product_admin_ul {
     li {
       padding: 1rem 0;
       transition: 0.2s linear;
+
       &:hover {
-        background: #fdfdfd;
+        background: var(--product-hover);
         box-shadow: inset 0 0 1rem 0 rgba(0 0 0 / 5%);
       }
+
       .product_text {
         text-align: left;
         padding: 0 2rem;
+
         span {
           font-size: 1.5rem;
           color: var(--gray-color);
         }
       }
+
+      .sold {
+        color: #03c04a;
+      }
+
+      .sold_out {
+        color: #d21404;
+      }
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem;
+
+    .dashboard-link {
+      text-align: center;
+      width: 4rem;
+      padding: 1rem;
+      margin: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: var(--font-color);
+      transition: .5s;
+
+      &:hover {
+        background-color: var(--pink-color);
+        color: #eee;
+      }
+    }
+
+    .active-link {
+      background-color: var(--pink-color);
+      color: #eee;
     }
   }
 }

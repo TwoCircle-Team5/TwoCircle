@@ -15,9 +15,9 @@ export function dashBoardRender() {
     <div class="dashboard_summary">
       <h2 class="summary_title">요약</h2>
       <div class="summary">
-        <div class="summary_itemcount"></div>
-        <div class="summary_salesum"></div>
-        <div class="summary_member"></div>
+        <div class="summary_itemcount"><img class="filter_icon" src="../../image/box.png" alt="상품"><div class="itemcount"></div></div>
+        <div class="summary_salesum"><img class="filter_icon" src="../../image/won.png" alt="원화"><div class="salesum"></div></div>
+        <div class="summary_member"><img class="filter_icon" src="../../image/usercount.png" alt="유저수"><div class="member"></div></div>
       </div>
     </div>
       <div class="dashboard_table">
@@ -34,10 +34,7 @@ export function dashBoardRender() {
             <div class="navbar_totalprice">매출 합계</div>
           </div>
           <div class="table_content"></div>
-          <div class="table_pagination">
-            <button class="pagination_prev">이전</button>
-            <button class="pagination_next">다음</button>
-          </div>
+          <div class="table_pagination"></div>
       </div>
     </div> 
   </div>

@@ -7,7 +7,7 @@ export async function paymentRender() {
   <div id="wrap">
     <div class="wrap_container">
       <div class="payment">
-        <div class="dot-wrap">
+        <div class="dot-wrap dot_loading">
           <div class="dot-spinner"></div>
         </div>
         <div class="payment_inner">

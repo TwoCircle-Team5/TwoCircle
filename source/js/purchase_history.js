@@ -4,6 +4,7 @@ import { checkAccount } from '../api/account/account_add_check';
 import { purchaseHistory } from '../api/products/user/purchase_history_api';
 import { purchaseOk } from '../api/products/user/purchase_ok_api';
 import { purchaseCancel } from '../api/products/user/purchase_cancel_api';
+import { updatePagination, displayPage } from './pagination.js';
 
 export async function purchaseHandler() {
   const listItemContainerEl = document.querySelector('.list_item_container');
@@ -25,8 +26,8 @@ export async function purchaseHandler() {
   let product_title = '';
   let product_price = 0;
   let product_time = '';
-  let deal_done = false;
-  let deal_canceled = false;
+  let dealDone = false;
+  let dealCanceled = false;
   let list_items = '';
   let detailId = '';
   let filtered_items = '';
@@ -41,10 +42,15 @@ export async function purchaseHandler() {
   };
   let currentPage = 1;
   let itemsPerPage = 5;
+  let itemLength = 0;
 
   
   status1FilterEl.style.cssText = 'background-color: #FF597B; border-color: #FF597B; color: #FFFFFF;';
   renderItemList();
+  //targetPageLink = document.querySelectorAll('.list_item_pagination a[data-page="1"]');
+  //console.log('링크 '+Array.for(targetPageLink));
+  //var targetPageLinkHref = targetPageLink.href;
+  //targetPageLinkHref.classList.add('active-link');
   
 
   //구매 상태 필터 이벤트
@@ -230,10 +236,17 @@ export async function purchaseHandler() {
         btnEl.classList.add('list_item_btn');
 
         detailId = item.detailId;
-        deal_canceled = item.isCanceled;
-        deal_done = item.done;
+        dealCanceled = item.isCanceled;
+        dealDone = item.done;
 
-        titleEl.textContent = item.product.title;
+        let result = item.product.title;
+
+        if (item.product.title.includes('/')) {
+          const index = item.product.title.indexOf('/');
+          result = item.product.title.substring(0, index);
+        }
+
+        titleEl.textContent = result;
         priceEl.textContent = item.product.price + ' 원';
         timeEl.textContent = getdate(item.timePaid);
         const productInfoEl = document.createElement('div');
@@ -241,15 +254,15 @@ export async function purchaseHandler() {
         productInfoEl.append(imgEl, titleEl);
         listItemEl.append(timeEl, productInfoEl, priceEl, btnEl);
 
-        if (deal_canceled == true && deal_done == false) {
+        if (dealCanceled == true && dealDone == false) {
           btnEl.textContent = '구매 취소';
           listItemCancelEl.appendChild(listItemEl);
         }
-        if (deal_done == true && deal_canceled == false) {
+        if (dealDone == true && dealCanceled == false) {
           btnEl.textContent = '구매 확정';
           listItemConfirmEl.appendChild(listItemEl);
         }
-        if (deal_done == false && deal_canceled == false) {
+        if (dealDone == false && dealCanceled == false) {
           const btnOkEl = document.createElement('div');
           btnOkEl.classList.add('btn_ok');
           btnOkEl.textContent = '확정';
@@ -260,7 +273,7 @@ export async function purchaseHandler() {
           btnOkEl.addEventListener('click', (e) => {
             //구매 확정
             alert('구매가 확정되었습니다!');
-            deal_done = true;
+            dealDone = true;
             detailId = item.detailId;
             purchaseOk({ detailId });
             btnOkEl.style.display = 'none';
@@ -272,7 +285,7 @@ export async function purchaseHandler() {
           btnCancelEl.addEventListener('click', (e) => {
             //구매 취소
             alert('구매가 취소되었습니다.');
-            deal_canceled = true;
+            dealCanceled = true;
             detailId = item.detailId;
             purchaseCancel({ detailId });
             btnOkEl.style.display = 'none';
@@ -316,63 +329,54 @@ export async function purchaseHandler() {
     }
 
     const listItems = listItemContainerEl.querySelectorAll('ul li');
+    itemLength = listItems.length;
+    updatePagination(itemLength, itemsPerPage, currentPage, paginationContainer);
+    displayPage(currentPage, itemsPerPage, listItems);
 
-    updatePagination(listItems.length, itemsPerPage, currentPage);
-    displayPage(currentPage, itemsPerPage);
-  }
+    paginationContainer.addEventListener('click', (event) => {
+      event.preventDefault();
+      const link = event.target;
 
-  //페이지네이션
-  function updatePagination(numItems, itemsPerPage, currentPage) {
-    const numPages = Math.ceil(numItems / itemsPerPage);
-    paginationContainer.innerHTML = '';
-
-    for (let i = 1; i <= numPages; i++) {
-      const link = document.createElement('a');
-      link.href = '#';
-      link.classList.add('page-link');
-      link.dataset.page = i;
-      link.textContent = i;
-
-      if (i === currentPage) {
-        link.classList.add('active-link');
+      if (link.classList.contains('page-link')) {
+        const pageNum = parseInt(link.dataset.page, 10);
+        currentPage = pageNum;
+        updatePagination(itemLength, itemsPerPage, currentPage, paginationContainer);
+        displayPage(pageNum, itemsPerPage, listItems);
       }
-
-      paginationContainer.appendChild(link);
-
-      // const activeLink = paginationContainer.querySelector('.active');
-      // if (activeLink) {
-      //     activeLink.classList.add('active-link');
-      // }
-    }
-  }
-
-  function displayPage(pageNum, itemsPerPage) {
-    const startIndex = (pageNum - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    const listItems = document.querySelectorAll('.list_item_container li');
-    listItems.forEach((item) => {
-      item.style.display = 'none';
+      if (link.textContent === '<<') {
+        if (currentPage === 1) {
+          return;
+        }
+        currentPage = 1;
+        updatePagination(itemLength, itemsPerPage, currentPage, paginationContainer);
+        displayPage(currentPage, itemsPerPage, listItems);
+      }
+      if (link.textContent === '<') {
+        if (currentPage === 1) {
+          return;
+        }
+        currentPage -= 1;
+        updatePagination(itemLength, itemsPerPage, currentPage, paginationContainer);
+        displayPage(currentPage, itemsPerPage, listItems);
+      }
+      if (link.textContent === '>') {
+        if (currentPage === Math.ceil(itemLength / itemsPerPage)) {
+          return;
+        }
+        currentPage += 1;
+        updatePagination(itemLength, itemsPerPage, currentPage, paginationContainer);
+        displayPage(currentPage, itemsPerPage, listItems);
+      }
+      if (link.textContent === '>>') {
+        if (currentPage === Math.ceil(itemLength / itemsPerPage)) {
+          return;
+        }
+        currentPage = Math.ceil(itemLength / itemsPerPage, currentPage);
+        updatePagination(itemLength, itemsPerPage, currentPage, paginationContainer);
+        displayPage(currentPage, itemsPerPage, listItems);
+      }
     });
-
-    for (let i = startIndex; i < endIndex && i < listItems.length; i++) {
-      listItems[i].style.display = 'flex';
-    }
   }
-
-  paginationContainer.addEventListener('click', (event) => {
-    event.preventDefault();
-    const link = event.target;
-    if (link.classList.contains('page-link')) {
-      const pageNum = parseInt(link.dataset.page, 10);
-      displayPage(pageNum, itemsPerPage);
-
-      paginationContainer.querySelectorAll('.page-link').forEach((link) => {
-        link.classList.remove('active-link');
-      });
-      link.classList.add('active-link');
-    }
-  });
 
   //로딩
   function showLoading() {

@@ -1,6 +1,6 @@
 .admin_userlist {
-  background-color: var(--white-color);
-  border: 1px solid #ddd;
+  background-color: var(--nav-bg);
+  border: 1px solid var(--border-line);
   border-radius: 4px;
 
   .navbar {
@@ -32,7 +32,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--border-line);
     padding: 10px;
 
     .list_number {
@@ -58,7 +58,7 @@
   }
 
   .list:nth-child(2n) {
-    background-color: var(--more-lightgray-color);
+    background-color: var(--body-bg);
   }
 
   .list>div {

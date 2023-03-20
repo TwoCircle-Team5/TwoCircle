@@ -67,6 +67,7 @@ export async function paymentHandler() {
   orderNameEl.innerHTML = `${auth.displayName}`;
   orderEmailEl.innerHTML = `${auth.email}`;
 
+  // 선택된 은행 정보 나타내기
   banks.map((bank) => {
     const accountOptionEl = document.createElement("option");
     accountOptionEl.textContent = `${bank.bankName}`;
@@ -90,8 +91,28 @@ export async function paymentHandler() {
       bankNameEl.innerHTML = `${selectedBank.bankName}`;
       accountNumberEl.innerHTML = `${selectedBank.accountNumber}`;
       balanceEl.innerHTML = `${formatPrice(selectedBank.balance)}`;
+
+      // 선택된 은행에 따른 카드 이미지
       if (selectedBank.bankName === "KB국민은행") {
         cardImg.innerHTML = `<img src="https://img1.kbcard.com/ST/img/cxc/kbcard/upload/img/product/01664_img.png" alt="KB국민은행">`;
+      }
+      if (selectedBank.bankName === "신한은행") {
+        cardImg.innerHTML = `<img src="https://www.shinhancard.com/pconts/images/contents/card/plate/cdCheckBJBBE4.png" alt="신한은행">`;
+      }
+      if (selectedBank.bankName === "우리은행") {
+        cardImg.innerHTML = `<img src="https://pc.wooricard.com/webcontent/cdPrdImgFileList/2020/6/30/255f5006-67c4-485c-9b14-efb1d75c25c2.png" alt="우리은행">`;
+      }
+      if (selectedBank.bankName === "하나은행") {
+        cardImg.innerHTML = `<img src="https://m.hanacard.co.kr/ATTACH/NEW_HOMEPAGE/images/cardinfo/card_img/10041.png" alt="하나은행">`;
+      }
+      if (selectedBank.bankName === "케이뱅크") {
+        cardImg.innerHTML = `<img src="https://api.card-gorilla.com:8080/storage/card/438/card_img/20941/438card.png" alt="케이뱅크">`;
+      }
+      if (selectedBank.bankName === "카카오뱅크") {
+        cardImg.innerHTML = `<img src="https://cdnimage.ebn.co.kr/news/202112/news_1639523663_1512116_m_1.jpeg" alt="카카오뱅크">`;
+      }
+      if (selectedBank.bankName === "NH농협은행") {
+        cardImg.innerHTML = `<img src="https://api.card-gorilla.com:8080/storage/card/666/card_img/21431/666card.png" alt="NH농협은행">`;
       }
     } else {
       // 선택된 계좌 정보가 존재하지 않을 경우
@@ -111,6 +132,7 @@ export async function paymentHandler() {
     totalDiscountEl.append(`-${formatPrice(originSum - sum)}`);
   }
 
+  // 결제 이벤트 핸들러
   payBtnEl.addEventListener("click", async () => {
     if (!bankCheck) {
       alert("계좌를 선택해주세요");
@@ -128,6 +150,7 @@ export async function paymentHandler() {
         thumbnail: list.thumbnail,
       };
 
+      // 주어진 api에 count가 없으므로 count의 기능을 동작할 수 있게 만든 코드
       if (list.count > 1) {
         for (let i = 0; i < list.count; i++) {
           arrList.push(order);
@@ -153,6 +176,7 @@ export async function paymentHandler() {
     }
     dataList.pop();
 
+    // 결제api로 데이터를 전송
     dataList.map(async (data) => {
       await payment(data, selectedBank);
     });

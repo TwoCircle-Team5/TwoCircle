@@ -1,15 +1,14 @@
-
 // header - top 
 
 .top {
   width: 100%;
   height: 9rem;
-  background: #fff;
+  background: var(--nav-bg);
   padding: 1.8rem 2.1rem 1.6rem;
   display: flex;
   justify-content: space-between;
-  border-bottom: solid 1px #ededed;
-
+  border-bottom: solid 1px var(--border-line);
+  color: var(--font-color);
   &_inner {
     padding-right: 2.1rem;
     line-height: 5.6rem;
@@ -32,26 +31,37 @@
 .admin_container {
   display: flex;
   padding-top: 9rem;
-  background: var(--more-lightgray-color);
+  background: var(--admin-bg);
+  color: var(--font-color);
+
+  .admin_dot {
+    z-index: 4;
+    position: fixed;
+    top: 30%;
+    left: 60%;
+  }
 
   // menu 
   .menu {
     position: fixed;
     width: 27rem;
     min-height: calc(100vh - 9rem);
-    background: #fff;
+    background: var(--nav-bg);
     
     &_list li {
       line-height: 4.29;
       padding-left: 4rem;
+
       &.now_page {
         border-left: solid .4rem var(--pink-color);
         padding-left: 3.6rem;
       }
+
       &:hover {
         border-left: solid .4rem var(--pink-color);
         padding-left: 3.6rem;
       }
+
       a {
         display: block;
       }
@@ -65,7 +75,7 @@
   width: 100%;
   min-height: calc(100vh - 9rem);
   padding-left: 27rem;
-
+  color: var(--font-color);
   .container {
     padding: 3.1rem 2rem;
 
@@ -75,6 +85,7 @@
       justify-content: flex-end;
       align-items: center;
       margin-right: 21px;
+
       input {
         width: 24.4rem;
         height: 5rem;
@@ -83,11 +94,12 @@
         border: solid 1px #ededed;
         text-indent: 2.2rem;
         outline: 0;
+
         &::placeholder {
           color: var(--gray-color);
         }
       }
-      
+
       .search {
         width: 8rem;
         height: 4.2rem;
@@ -96,6 +108,7 @@
         text-align: center;
         line-height: 4.2rem;
         background: #636363;
+
         a {
           color: var(--white-color);
         }
@@ -107,6 +120,7 @@
       display: flex;
       justify-content: space-between;
       margin-bottom: 31px;
+
       h2 {
         padding: 0 24px;
         font-size: 25px;
@@ -114,31 +128,37 @@
         line-height: 48px;
       }
     }
+
     .button_box {
       display: flex;
-      > * {
+
+      >* {
         display: block;
         width: 13rem;
         height: 4rem;
         line-height: 4rem;
+        padding: 0;
         margin-left: 1rem;
         font-size: 1.5rem;
         text-align: center;
-        background: var(--white-color);
-        border: 1px solid var(--font-color);
+        background: var(--body-bg);
+        border: 1px solid var(--border-line);
         cursor: pointer;
+
         &.delete_btn {
-          transition: 2s linear;
+          transition: .2s linear;
           &:hover {
             box-shadow: inset 0 0 5rem 0 rgba(0 0 0 / 10%);
           }
         }
       }
+
       :nth-child(2) {
         border: none;
         color: var(--white-color);
         background: var(--pink-color);
-        transition: 0.2s linear;
+        transition: .2s linear;
+
         &:hover {
           box-shadow: inset 0 0 5rem 0 rgba(0 0 0 / 10%);
         }

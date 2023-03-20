@@ -1,5 +1,5 @@
 .product_wrap {
-  padding: 12rem 0 22rem;
+  padding: 12rem 0;
 }
 
 // 카테고리 제목
@@ -65,7 +65,7 @@
     gap: 1.33%;
     li {
       width: 24%;
-      margin-bottom: 1.5rem;
+      margin-bottom: 4.5rem;
     }
     .product{
       // 상품 썸네일 이미지
@@ -133,6 +133,7 @@
     right: 0;
     padding: 3%;
     z-index: 1;
+    color: var(--black-color);
   }
   .fa-solid{
     color: var(--pink-color);

@@ -1,5 +1,4 @@
 import Navigo from 'navigo';
-
 import { authCheck } from './api/certified/authcheck_api.js';
 import { logout } from './api/certified/logout_api.js';
 
@@ -28,7 +27,16 @@ import { adminProduct } from '../pages/admin/product.js';
 import { productUpdate } from '../pages/admin/product_update.js';
 import { userListRender } from '../pages/admin/admin_userlist.js';
 import { admin } from './js/admin/admin.js';
-import { dashBoardRender } from "../pages/admin/admin_dashboard.js";
+import { dashBoardRender } from '../pages/admin/admin_dashboard.js';
+import { notFoundRender } from '../pages/notfound/404page.js';
+
+// const userSystemPreferColorThemeQuery = "(prefers-color-scheme: dark)";
+// const userSystemTheme = window.matchMedia(userSystemPreferColorThemeQuery).matches ? 'dark' : 'light';
+// const userTheme = localStorage.getItem('mode')
+
+// userTheme === 'dark' ? : ;
+
+// function setDarkMode() {}
 
 export const router = new Navigo('/');
 
@@ -38,8 +46,17 @@ router.hooks({
     const auth = await authCheck(accessToken);
     headerRender();
     // 페이지 가드
-    const onlyUserPages = ['mypage', 'mypage/wish', 'account', 'payment', 'mypage/changeInfo', 'mypage/account', 'admin', 'admin/product_add'];
-    const onlyAdminPages = ['admin', 'admin/product_add', 'admin/user_list'];
+    const onlyUserPages = [
+      'mypage',
+      'mypage/wish',
+      'account',
+      'payment',
+      'mypage/changeInfo',
+      'mypage/account',
+      'admin',
+      'admin/product_add',
+    ];
+    const onlyAdminPages = ['admin', 'admin/product_add', 'admin/user_list', 'admin/dashboard'];
 
     if (onlyUserPages.includes(match.url) && !auth) {
       router.navigate('login');
@@ -51,7 +68,7 @@ router.hooks({
     }
     // 관리자 페이지
     if (onlyAdminPages.includes(match.url) && auth.email != process.env.ADMIN) {
-      alert("유용한 사용자가 아닙니다.");
+      alert('유용한 사용자가 아닙니다.');
       history.go(-1);
     }
 
@@ -67,9 +84,10 @@ router.hooks({
       logoutBtn.addEventListener('click', async () => {
         await logout(accessToken);
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('payment');
         loginEl.style.display = 'flex';
         logoutEl.style.display = 'none';
-        router.navigate("/");
+        router.navigate('/');
         done();
       });
     } else {
@@ -78,12 +96,11 @@ router.hooks({
     }
 
     // 관리자
-    if (auth.email === process.env.ADMIN && match.url === '') {
+    if (auth && auth.email === process.env.ADMIN) {
       loginNameEl.innerHTML = /* html */ `
         <a href="/admin">관리자페이지로 이동</a>
       `;
     }
-
     done();
   },
   after: (match) => {
@@ -92,96 +109,96 @@ router.hooks({
 });
 router
   .on({
-    "/": () => {
+    '/': () => {
       mainRender();
     },
-
-    "login": () => {
+    'login': () => {
       loginRender();
     },
-    "signup": () => {
+    'signup': () => {
       signupRender();
     },
-    "cart": () => {
+    'cart': () => {
       cartRender();
     },
-    "mypage": () => {
+    'mypage': () => {
       navRender();
       mypageRender();
     },
-    "mypage/wish": () => {
+    'mypage/wish': () => {
       navRender();
       wishRender();
     },
-    "mypage/purchase": () => {
+    'mypage/purchase': () => {
       navRender();
       purchaseRender();
     },
-    "mypage/changeInfo": (match) => {
+    'mypage/changeInfo': (match) => {
       navRender();
       pwCheckRender(match.url);
     },
-    "mypage/account": (match) => {
+    'mypage/account': (match) => {
       navRender();
       pwCheckRender(match.url);
+      accountRender();
     },
-    "product_list/:id": (match) => {
+    'product_list/:id': (match) => {
       productListRender(match.data.id);
     },
-    "product_search/:id": (match) => {
+    'product_search/:id': (match) => {
       searchListRender(match.data.id);
       productRender(match.data.id, []);
     },
-    "order_completed": () => {
+    'order_completed': () => {
       orderCompletedRender();
     },
-    "product_details/:id": (match) => {
+    'product_details/:id': (match) => {
       productDetailRender(match);
     },
-    "payment": () => {
+    'payment': () => {
       paymentRender();
     },
-    "order_completed": () => {
+    'order_completed': () => {
       orderCompletedRender();
     },
-    "admin": () => {
+    'admin': () => {
       adminWrap();
       adminPageRender();
       const ativeNav = document.querySelector('.menu_prd_list');
-      console.log({ ativeNav });
       ativeNav.classList.add('now_page');
     },
-    "admin/product_add": () => {
+    'admin/product_add': () => {
       adminWrap();
       adminProductAdd();
       const ativeNav = document.querySelector('.menu_prd_add');
-      console.log({ ativeNav });
       ativeNav.classList.add('now_page');
     },
-    "admin/user_list": () => {
+    'admin/user_list': () => {
       adminWrap();
       userListRender();
       const ativeNav = document.querySelector('.menu_user_list');
-      console.log({ ativeNav });
       ativeNav.classList.add('now_page');
     },
-    "admin/dashboard": () => {
+    'admin/dashboard': () => {
       adminWrap();
       dashBoardRender();
+      const ativeNav = document.querySelector('.menu_dashboard');
+      ativeNav.classList.add('now_page');
     },
-    "admin/:id": (match) => {
+    'admin/:id': (match) => {
       adminWrap();
       adminProduct(match.data.id);
       const ativeNav = document.querySelector('.menu_prd_list');
       ativeNav.classList.add('now_page');
     },
-    "admin/update/:id": (match) => {
+    'admin/update/:id': (match) => {
       adminWrap();
       productUpdate(match.data.id);
       const ativeNav = document.querySelector('.menu_prd_list');
-      console.log({ ativeNav });
       ativeNav.classList.add('now_page');
     },
   })
+  .notFound(() => {
+    notFoundRender();
+  })
   .resolve();
-

@@ -2,7 +2,7 @@ import { adminProductList } from "../../source/js/admin/product_list";
 
 export function adminPageRender() {
   const admin = document.querySelector("#admin");
-  admin.innerHTML = /*html*/`
+  admin.innerHTML = /*html*/ `
     <div class="container">
       <div class="product_admin">
         <div class="title">
@@ -30,7 +30,9 @@ export function adminPageRender() {
             <p>품절여부</p>
           </div>
           <ul class="product_admin_ul"></ul>
+          <div class="pagination"></div>
         </div>
+        
       </div>
     </div>`;
   adminProductList();

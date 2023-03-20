@@ -26,15 +26,17 @@ export async function pwCheck(url) {
     };
 
     const res = await pwCheckApi('POST', body);
-    try {
-        loginResult = await pwCheckApi("POST", body, login_check);
-        login_check = loginResult.status;
-    }
-    catch (error) {
+    // try {
+    //     loginResult = await pwCheckApi("POST", body, login_check);
+    //     console.log(loginResult);
+    //     login_check = loginResult.status;
+    //     console.log(login_check);
+    // }
+    // catch (error) {
 
-    }
+    // }
     if (res.status === 200) {
-      alert('비밀번호 확인 성공!');
+      //alert('비밀번호 확인 성공!');
       if(url === "mypage/account"){
         accountRender()
       }else{
