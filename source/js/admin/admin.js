@@ -15,6 +15,7 @@ export async function admin() {
   logoutBtn.addEventListener('click', async () => {
     await logout(accessToken);
     localStorage.removeItem('accessToken');
+    localStorage.removeItem("payment");
     location.href = '/';
   });
 }

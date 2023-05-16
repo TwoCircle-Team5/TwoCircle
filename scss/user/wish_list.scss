@@ -4,10 +4,11 @@
     .wish_wrap {
      
       .wish_header {
-        .header {
+        h2 {
           font-size: 3.2rem;
           font-weight: var(--font-bold);
           padding: 0 0 4rem;
+          line-height: 1;
         }
       }
 
@@ -20,24 +21,24 @@
         padding-bottom: 20rem;
         .wish_icon {
           .heart_img {
-            width: 18rem;
+            width: 12rem;
           }
         }
         .empty_text {
           padding: 2rem 4rem;
-          color: var(--darkgray-color);
+          color: var(--font-color);
           font-size: 2.4rem;
         }
 
         .wish_btn {
-          background-color: var(--font-color);
+          background-color: var(--border-line);
           width: 26rem;
           padding: 1.5rem 1.5rem;
           margin-top: 2rem;
           margin-bottom: 2rem;
           a {
             text-align: center;
-            color: var(--white-color);
+            color: var(--font-color);
           }
         }
       }

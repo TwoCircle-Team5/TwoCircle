@@ -5,23 +5,21 @@
 }
 
 @mixin summary-item {
-  width: 100%;
-  height: 100%;
-  border-radius: 100%;
+  width: 30rem;
+  height: 18rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 3rem 10rem;
-  font-size: 1.5rem;
+  margin: 3rem 5rem;
+  font-size: 2rem;
   font-weight: bold;
   text-align: center;
-  background-color: var(--more-lightgray-color);
 }
 
 .admin_dashboard {
-  background-color: var(--white-color);
+  background-color: var(--nav-bg);
   padding: 1rem;
-
   .chart_title {
     @include title;
   }
@@ -31,15 +29,16 @@
     height: 45rem;
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    margin: 1rem;
     justify-content: center;
     align-items: center;
   }
 
   /* 테이블 스타일링 */
   .dashboard_table {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-line);
     padding: 1rem;
+    margin-bottom: 1rem;
 
     /* 테이블 타이틀 스타일링 */
     .table_title {
@@ -49,7 +48,7 @@
     /* 테이블 내비게이션 바 스타일링 */
     .table_navbar {
       display: flex;
-      background-color: #eee;
+      background-color: var(--product-hover);
       font-weight: bold;
 
       /* 내비게이션 요소 스타일링 */
@@ -67,7 +66,7 @@
       }
 
       .navbar_date {
-        flex: 2;
+        flex: 1.5;
       }
 
       .navbar_user {
@@ -104,7 +103,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-top: 1px solid #ddd;
+        border-top: 1px solid var(--border-line);
         height: 5rem;
         font-size: 1.2rem;
 
@@ -123,7 +122,7 @@
         }
 
         .content_date {
-          flex: 2;
+          flex: 1.5;
         }
 
         .content_user {
@@ -152,7 +151,7 @@
 
         /* 짝수 행의 색깔 변경 */
         &:nth-child(even) {
-          background-color: #f9f9f9;
+          background-color: var(--product-hover);
         }
 
         /* 매출 합계 요소 스타일링 */
@@ -165,7 +164,7 @@
         .content_footer_totalsum {
           font-weight: bold;
           padding: 1rem;
-          border-top: 1px solid #ddd;
+          border-top: 1px solid var(--border-line);
           display: flex;
 
           /* 페이지 합계 요소 스타일링 */
@@ -181,17 +180,31 @@
         }
       }
     }
-    .table_pagination{
-      display:flex;
+
+    .table_pagination {
+      display: flex;
       justify-content: center;
       align-items: center;
-      button{
-        width: 8rem;
-        height: 5rem;
-        margin: 2rem 8rem;
-        cursor: pointer;
-        border: 2px solid var(--pink-color);
-        background-color: #fff
+      margin: 2rem;
+
+      .dashboard-link {
+        text-align: center;
+        width: 4rem;
+        padding: 1rem;
+        margin: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        color: var(--font-color);
+        transition: .5s;
+        &:hover {
+          background-color: var(--pink-color);
+          color: #eee;
+        }
+      }
+      .active-link{
+        background-color: var(--pink-color);
+        color: #eee;
       }
     }
   }
@@ -213,18 +226,23 @@
       margin: 3rem;
 
       .summary_itemcount {
-        color: blue;
+        color: #ADD8E6;
         @include summary-item();
       }
 
       .summary_salesum {
-        color: green;
+        color: #8aeb8f;
         @include summary-item();
       }
 
       .summary_member {
-        color: red;
+        color: var(--pink-color);
         @include summary-item();
+      }
+      img{
+        margin: 2rem;
+        width:5rem;
+        height: 5rem;
       }
     }
   }

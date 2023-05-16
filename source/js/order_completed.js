@@ -14,6 +14,7 @@ export async function orderCompletedHandler() {
   loading();
   const dot = document.querySelector(".dot-wrap");
 
+  // 결제 완료 시 나타나는 정보
   nameEl.innerHTML = `${auth.displayName}`;
   dateEl.innerHTML = `${new Date().toLocaleDateString()}`;
   priceEl.innerHTML = `${
@@ -22,6 +23,7 @@ export async function orderCompletedHandler() {
   }`;
   listEl.innerHTML = `${item.length - 1}개의 상품을 주문하였습니다`;
 
+  // 마이페이지, 홈으로 이동 버튼
   myPageBtnEl.addEventListener("click", () => {
     removeItemStorage();
     router.navigate("/mypage");
@@ -31,7 +33,7 @@ export async function orderCompletedHandler() {
     router.navigate("/");
   });
 
-  // 아무 페이지나 이동해도 removeItemStorage가 실행되게 하기
+  // 모든 a태그를 가진 링크를 클릭시 removeItemStorage 실행
   const allLinks = document.querySelectorAll("a");
   allLinks.forEach((link) => {
     link.addEventListener("click", () => {
@@ -39,16 +41,17 @@ export async function orderCompletedHandler() {
     });
   });
 
-  // 뒤로가기 이벤트를 감지하는 함수
+  // 뒤로가기 이벤트를 감지
   window.onpopstate = function () {
-    // 브라우저의 히스토리에서 현재 페이지를 제거
+    // 브라우저의 히스토리에서 현재 페이지를 제거, 결제시 뒤로 갈 필요가 없으므로 추가 함
     window.history.pushState(null, null, window.location.href);
-    // 사용자에게 경고창을 띄움
+    // 사용자에게 알림 띄우기
     alert("결제가 완료되었습니다.");
   };
   // 초기 페이지 로딩시 브라우저 히스토리에 현재 페이지를 추가
   window.history.pushState(null, null, window.location.href);
 
+  // 로컬스토리지 삭제
   function removeItemStorage() {
     localStorage.removeItem("basket");
     localStorage.removeItem("payment");

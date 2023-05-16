@@ -10,14 +10,13 @@ export function wishRender() {
     <div class="inner wish_inner">
       <div class="wish_wrap products">
         <div class="wish_header">
-          <h2 class="header">찜 리스트</h2>
+          <h2>찜 리스트</h2>
         </div>
-        ${
-          isEmpty
-            ? /*html*/ `
+        ${isEmpty
+      ? /*html*/ `
         <div class ="wish_none">
           <div class="wish_icon">
-          <img class="heart_img" src="../../image/heart_img.png"/>
+          <img class="heart_img filter_icon" src="../../image/heart_img.png"/>
           </div>  
           <div class ="empty_text">찜 리스트가 비었습니다.</div>
           <div class="wish_btn">
@@ -25,14 +24,17 @@ export function wishRender() {
           </div>
         </div>
         `
-            : /*html*/ `
+      : /*html*/ `
         <ul class="list products_lists">
         </ul>
         `
-        }
+    }
         
       </div>
     </div>
   </section>`;
-  renderWishList(wishList);
+  if(!isEmpty) {
+
+    renderWishList(wishList);
+  }
 }

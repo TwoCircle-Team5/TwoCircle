@@ -5,7 +5,8 @@ export function productAddItem() {
   const nameEl = document.querySelector('.product_name');
   const priceEl = document.querySelector('.product_price');
   const textEl = document.querySelector('.product_text');
-  const tagEl = document.querySelector('.product_tag');
+  const mainTagEl = document.querySelectorAll('[name="main_tag"]');
+  const tagEl = document.querySelectorAll('[name="tag"]');
   const thumbnailBtn = document.querySelector('.thumbnail_btn');
   const thumbnailEl = document.querySelector('.product_thumbnail');
   const photoBtn = document.querySelector('.photo_btn');
@@ -13,17 +14,21 @@ export function productAddItem() {
   const discountEl = document.querySelector('.product_discount');
   const registrationBtn = document.querySelector('.product_registration');
   const dot = document.querySelector(".dot-wrap");
+  const mainTagCount = JSON.parse(localStorage.getItem('mainTagCount'));
+  const bestCount = document.querySelector('.best_count');
+  const mdCount = document.querySelector('.md_count');
+  const newCount = document.querySelector('.new_count');
 
-  let name = '';
+  let title = '';
   let price = '';
-  let text = '';
-  let tag = '';
-  let thumbnailImgBase64 = '';
-  let photoImgBase64 = '';
-  let discount = '';
+  let description = '';
+  let tags = [];
+  let thumbnailBase64 = '';
+  let photoBase64 = '';
+  let discountRate = '';
 
   nameEl.addEventListener('input', e => {
-    name = e.target.value;
+    title = e.target.value;
   });
   priceEl.addEventListener('input', e => {
     price = Number(e.target.value);
@@ -32,10 +37,33 @@ export function productAddItem() {
     }
   });
   textEl.addEventListener('input', e => {
-    text = e.target.value;
+    description = e.target.value;
   });
-  tagEl.addEventListener('input', e => {
-    tag = e.target.value.split(', ');
+
+  // 메인상품 진열
+  bestCount.innerHTML = `(${mainTagCount.bestCount})`;
+  mdCount.innerHTML = `(${mainTagCount.mdCount})`;;
+  newCount.innerHTML = `(${mainTagCount.newCount})`;;
+  mainTagEl.forEach(function (mainTag) {
+    mainTag.addEventListener('change', function (event) {
+      if (event.target.checked) {
+        tags.push(event.target.id);
+      } else {
+        tags = tags.filter(ele => ele !== event.target.id);
+      }
+    });
+  });
+
+
+  // 태그
+  tagEl.forEach(function (tag) {
+    tag.addEventListener('change', function (event) {
+      if (event.target.checked) {
+        tags.push(event.target.dataset.id);
+      } else {
+        tags = tags.filter(ele => ele !== event.target.dataset.id);
+      }
+    });
   });
 
   // 제품 사진
@@ -47,10 +75,10 @@ export function productAddItem() {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', e => {
-      thumbnailImgBase64 = e.target.result;
+      thumbnailBase64 = e.target.result;
       const img = document.querySelector('.thumbnail_img');
       img.innerHTML = /* html */ `
-        <img src="${thumbnailImgBase64}" alt="썸네일" />
+        <img src="${thumbnailBase64}" alt="썸네일" />
       `;
     });
   });
@@ -64,33 +92,33 @@ export function productAddItem() {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', e => {
-      photoImgBase64 = e.target.result;
+      photoBase64 = e.target.result;
       const img = document.querySelector('.photo_img');
       img.innerHTML = /* html */ `
-        <img src="${photoImgBase64}" alt="상세이미지" />
+        <img src="${photoBase64}" alt="상세이미지" />
       `;
     });
   });
 
   discountEl.addEventListener('input', e => {
-    discount = e.target.value;
-    if (isNaN(discount)) {
+    discountRate = e.target.value;
+    if (isNaN(discountRate)) {
       e.target.value = '';
     }
   });
 
   registrationBtn.addEventListener('click', async () => {
     await productAdd({
-      title: name,
-      price: price,
-      description: text,
-      tags: tag,
-      thumbnailBase64: thumbnailImgBase64,
-      photoBase64: photoImgBase64,
-      discountRate: discount
+      title,
+      price,
+      description,
+      tags,
+      thumbnailBase64,
+      photoBase64,
+      discountRate
     });
 
-    router.navigate("admin")
+    router.navigate("admin");
   });
   dot.style.display = "none";
 

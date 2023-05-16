@@ -9,6 +9,6 @@ export function loginHandler(){
       email: e.target[0].value,
       password: e.target[1].value
     }
-    login("POST", body)
+    await login("POST", body)
   })
 }

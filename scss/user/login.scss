@@ -1,13 +1,4 @@
-// 버튼 공통 셋팅
-.btn {
-  background-color: var(--white-color);
-  font-size: 1.8rem;
-  font-weight: var(--font-bold);
-  width: 41rem;
-  height: 5.5rem;
-  border: none;
-  cursor: pointer;
-}
+
 
 a {
   text-decoration: none;
@@ -18,11 +9,10 @@ a {
 .login_section {
   &_inner {
     position: relative;
-    max-width: 44rem;
+    max-width: 41rem;
     margin: 0 auto;
     text-align: center;
-    margin-top: 9rem;
-    margin-bottom: 6rem;
+    padding: 10rem 0;
 
     // 로그인 제목
     .login_section_title {
@@ -45,7 +35,7 @@ a {
         width: 41rem;
         height: 5.5rem;
         padding: 0 1rem;
-
+        background-color: transparent;
         &::placeholder {
           color: var(--gray-color)
         }
@@ -68,8 +58,8 @@ a {
       // 아이디 이미지
       .icon_person {
         position: absolute;
-        right: 2.6rem;
-        top: 7.8rem;
+        right: 1.6rem;
+        top: 17.8rem;
       }
 
       // 비밀번호 입력
@@ -80,8 +70,8 @@ a {
       // 비밀번호 이미지
       .icon_lock {
         position: absolute;
-        right: 2.6rem;
-        top: 15.2rem;
+        right: 1.6rem;
+        top: 25.2rem;
       }
 
       // 버튼
@@ -90,13 +80,21 @@ a {
         background-color: var(--pink-color);
         margin-bottom: 1.8rem;
       }
+        // 회원가입 버튼
+      .login_section_signup {
+        background-color: var(--border-line);
+        border: 1px solid var(--black-color);
+        line-height: 5.5rem;
+      }
     }
-
-    // 회원가입 버튼
-    .login_section_signup {
-      margin: 0 auto;
-      border: 1px solid var(--black-color);
-      line-height: 5.5rem;
-    }
+  }
+  // 버튼 공통 셋팅
+  .btn {
+    font-size: 1.8rem;
+    font-weight: var(--font-bold);
+    width: 41rem;
+    height: 5.5rem;
+    border: none;
+    cursor: pointer;
   }
 }

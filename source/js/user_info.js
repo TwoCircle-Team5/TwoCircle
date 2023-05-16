@@ -178,7 +178,7 @@ export async function userInfoHandler() {
         changeModalEl.innerHTML = /* HTML */`
         <div class="change_modal_box">
             <h1>이름 변경</h1>
-            <span>변경하실 이름을 입력하세요.</span>
+            <span>변경하실 이름을 입력하세요. (이름은 한글만 가능합니다.)</span>
             <input class="new_name" placeholder="새 이름">
             <div class="new_name_section_btn">
                 <button class="change_cancel_btn">취소</button>

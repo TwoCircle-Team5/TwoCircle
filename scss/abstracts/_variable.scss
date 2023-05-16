@@ -1,5 +1,6 @@
 :root {
   --font-color: #181818;
+  --more-darkgray-color: #393737;
   --pink-color: #FF597B;
   --black-color: #000000;
   --white-color: #FFFFFF;
@@ -10,5 +11,26 @@
   --font-thin: 300;
   --font-basic: 400;
   --font-bold: 700;
+  --nav-bg:#fff;
+  --border-line:#EEE;
+  --body-bg:#fff;
+  --math-color:#C8C8C8;
+  --admin-bg:#f5f5f5;
+  --product-hover:#fdfdfd;
+  --tag-color: #181818;
+  --event-badge:#363738;
+  --dashBoard-border: #e6e6e6;
 }
 
+.dark {
+  --nav-bg: #292A2D;
+  --font-color: #fff;
+  --border-line:#333436;
+  --body-bg: #1e1f21;
+  --math-color:#292A2D;
+  --admin-bg: #363738;
+  --product-hover:#1e1f21;
+  --tag-color:#FF597B;
+  --event-badge:#fff;
+  --dashBoard-border: #363738;
+}

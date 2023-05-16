@@ -1,4 +1,3 @@
-import { async } from "q";
 import { allProduct } from "../../api/products/admin/allProduct_api.js";
 import { productDelete } from "../../api/products/admin/product_delete.js";
 
@@ -14,7 +13,7 @@ function renderList(data) {
   const labelEl = document.querySelector('label');
   const deleteBtn = document.querySelector('.delete_btn');
   const dot = document.querySelector(".dot-wrap");
-  
+
   const liEls = data.map((prd, idx) => {
     const liEl = document.createElement('li');
     liEl.innerHTML = /* html */ `
@@ -29,7 +28,7 @@ function renderList(data) {
           <span>${prd.description}</span>
         </div>
         <p>${prd.price} 원</p>
-        <p>${prd.isSoldOut ? '<span class="sold_out">품절</span>' : '판매중'}</p>
+        <p class="sold">${prd.isSoldOut ? '<span class="sold_out">품절</span>' : '판매중'}</p>
       </a>
       `;
 
@@ -55,11 +54,25 @@ function renderList(data) {
           await productDelete(checkbox.dataset.id);
         }
       }
-      const list = await productList();
+      const list = await allProduct();
       renderList(list);
     };
     choseDelete();
   });
+
+  // 메인 진열 상품 개수 알기
+  function countTags(data, tag) {
+    return data.reduce((count, item) => {
+      return item.tags.includes(tag) ? count + 1 : count;
+    }, 0);
+  }
+  const mainTagCount = {
+    bestCount: countTags(data, "best"),
+    mdCount: countTags(data, "md"),
+    newCount: countTags(data, "new")
+  };
+  localStorage.setItem('mainTagCount', JSON.stringify(mainTagCount));
+
   dot.style.display = "none";
 }
 

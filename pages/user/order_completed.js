@@ -7,7 +7,7 @@ export async function orderCompletedRender() {
     <div class="container_order_completed">
       <div class="order_completed">
         <div class="dot-wrap">
-          <div class="dot-spinner"></div>
+          <div class="dot-spinner dot_loading"></div>
         </div>
         <div class="order_completed_inner">
           <!-- 상단 제목 -->

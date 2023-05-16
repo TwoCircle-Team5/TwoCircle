@@ -4,7 +4,8 @@ export function productUpdateHandler(id) {
   const nameEl = document.querySelector('.product_name');
   const priceEl = document.querySelector('.product_price');
   const textEl = document.querySelector('.product_text');
-  const tagEl = document.querySelector('.product_tag');
+  const mainTagEl = document.querySelectorAll('[name="main_tag"]');
+  const tagEl = document.querySelectorAll('[name="tag"]');
   const thumbnailEl = document.querySelector('.thumbnail_img');
   const thumbnailBtn = document.querySelector('.thumbnail_btn');
   const thumbnailUpdate = document.querySelector('.product_update_img');
@@ -14,15 +15,15 @@ export function productUpdateHandler(id) {
   const soldoutEl = document.querySelector('.soldout_btn');
   const discountEl = document.querySelector('.product_discount');
   const product_update = document.querySelector('.product_update');
-
-  let name = '';
+  const dot = document.querySelector(".dot-wrap");
+  let title = '';
   let price = '';
-  let text = '';
-  let tag = '';
-  let thumbnailImgBase64 = '';
-  let photoImgBase64 = '';
-  let soldout = '';
-  let discount = '';
+  let description = '';
+  let tags = [];
+  let thumbnailBase64 = '';
+  let photoBase64 = '';
+  let isSoldOut = '';
+  let discountRate = '';
 
   (async () => {
     const data = await product(id);
@@ -30,50 +31,64 @@ export function productUpdateHandler(id) {
   })();
 
   function renderProduct(data) {
-    const dot = document.querySelector(".dot-wrap");
-    name = nameEl.value = data.title;
+    title = nameEl.value = data.title;
     price = priceEl.value = data.price;
-    text = textEl.value = data.description;
-    if (Array.isArray(data.tags)) {
-      tag = tagEl.value = data.tags.join(', ');
-    } else {
-      tag = tagEl.value = data.tags;
-    }
+    description = textEl.value = data.description;
+    const mainTags = Array.from(data.tags).filter(ele => ['best', 'md', 'new'].includes(ele));
+    const productTags = Array.from(data.tags).filter(ele => !mainTags.includes(ele));
+
+    // 메인상품 진열
+    mainTags.forEach((mainTag) => {
+      const checkbox = Array.from(mainTagEl).find(ele => ele.id === mainTag);
+      if (checkbox) {
+        checkbox.checked = true;
+        tags.push(mainTag);
+      }
+    });
+
+    // 태그
+    productTags.forEach((tag) => {
+      const checkbox = Array.from(tagEl).find(ele => ele.dataset.id === tag);
+      if (checkbox) {
+        checkbox.checked = true;
+        tags.push(tag);
+      }
+    });
 
     if (data.thumbnail !== null) {
       thumbnailEl.innerHTML = /* html */ `
-        <img src=${data.thumbnail} alt="" />
+        <img src=${data.thumbnail} alt="ThumbNail" />
       `;
     } else {
       thumbnailEl.innerHTML = /* html */ `
-        <img src="https://via.placeholder.com/200x200?text=NO+IMAGE" alt="" />
+        <img src="https://via.placeholder.com/200x200?text=NO+IMAGE" alt="NO IMAGE" />
       `;
     }
 
     if (data.photo !== null) {
       photoEl.innerHTML = /* html */ `
-        <img src=${data.photo} alt="" />
+        <img src=${data.photo} alt="PHOTO" />
       `;
     } else {
       photoEl.innerHTML = /* html */ `
-        <img src="https://via.placeholder.com/200x250?text=NO+IMAGE" alt="" />
+        <img src="https://via.placeholder.com/200x250?text=NO+IMAGE" alt="NO IMAGE" />
       `;
     }
 
-    soldout = data.isSoldOut;
-    if (soldout) {
+    isSoldOut = data.isSoldOut;
+    if (isSoldOut) {
       soldoutEl.innerText = '매진';
       soldoutEl.classList.add('sold');
     } else {
       soldoutEl.innerText = '판매중';
     }
 
-    discount = discountEl.value = data.discountRate;
+    discountRate = discountEl.value = data.discountRate;
   }
 
 
   nameEl.addEventListener('input', e => {
-    name = e.target.value;
+    title = e.target.value;
   });
   priceEl.addEventListener('input', e => {
     price = Number(e.target.value);
@@ -82,11 +97,32 @@ export function productUpdateHandler(id) {
     }
   });
   textEl.addEventListener('input', e => {
-    text = e.target.value;
+    description = e.target.value;
   });
-  tagEl.addEventListener('input', e => {
-    tag = e.target.value.split(', ');
+
+  // 메인상품 진열
+  mainTagEl.forEach(function (mainTag) {
+    mainTag.addEventListener('change', function (event) {
+      if (event.target.checked) {
+        tags.push(event.target.id);
+      } else {
+        tags = tags.filter(ele => ele !== event.target.id);
+      }
+    });
   });
+
+
+  // 태그
+  tagEl.forEach(function (tag) {
+    tag.addEventListener('change', function (event) {
+      if (event.target.checked) {
+        tags.push(event.target.dataset.id);
+      } else {
+        tags = tags.filter(ele => ele !== event.target.dataset.id);
+      }
+    });
+  });
+
 
   // 제품 사진 찾기
   thumbnailBtn.addEventListener('click', () => thumbnailUpdate.click());
@@ -95,9 +131,9 @@ export function productUpdateHandler(id) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', e => {
-      thumbnailImgBase64 = e.target.result;
+      thumbnailBase64 = e.target.result;
       const img = document.querySelector('.product_img img');
-      img.src = thumbnailImgBase64;
+      img.src = thumbnailBase64;
     });
   });
 
@@ -108,27 +144,27 @@ export function productUpdateHandler(id) {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.addEventListener('load', e => {
-      photoImgBase64 = e.target.result;
+      photoBase64 = e.target.result;
       const img = document.querySelector('.product_detail_img img');
-      img.src = photoImgBase64;
+      img.src = photoBase64;
     });
   });
 
   soldoutEl.addEventListener('click', e => {
-    if (soldout) {
-      soldout = false;
+    if (isSoldOut) {
+      isSoldOut = false;
       soldoutEl.innerText = '판매중';
       soldoutEl.classList.remove('sold');
     } else {
-      soldout = true;
+      isSoldOut = true;
       soldoutEl.innerText = '매진';
       soldoutEl.classList.add('sold');
     }
   });
 
   discountEl.addEventListener('input', e => {
-    discount = e.target.value;
-    if (isNaN(discount)) {
+    discountRate = e.target.value;
+    if (isNaN(discountRate)) {
       e.target.value = '';
     }
   });
@@ -136,14 +172,14 @@ export function productUpdateHandler(id) {
 
   product_update.addEventListener('click', async function () {
     await product(id, {
-      title: name,
-      price: price,
-      description: text,
-      tags: tag,
-      thumbnailBase64: thumbnailImgBase64,
-      photoBase64: photoImgBase64,
-      isSoldOut: soldout,
-      discountRate: discount
+      title,
+      price,
+      description,
+      tags,
+      thumbnailBase64,
+      photoBase64,
+      isSoldOut,
+      discountRate
     });
   });
   dot.style.display = "none";

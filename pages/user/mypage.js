@@ -6,8 +6,8 @@ export function navRender() {
   <section class="mypage">
     <div class="inner">
       <div class="mypage_nav">
-        <div class="header">
-          <h2 class="header_title">마이페이지</h2>
+        <div class="mypage_title">
+          <h2>마이페이지</h2>
         </div>
 
         <div class="shipping_info_area">
@@ -32,14 +32,14 @@ export function navRender() {
       </div>
       <div id="mypage" class="mypage_main"></div>
     </div>
-  </section>;`;
+  </section>`;
 }
 
 export async function mypageRender() {
   const mypage = document.querySelector("#mypage");
   const accessToken = JSON.parse(localStorage.getItem("accessToken"));
   const auth = await authCheck(accessToken);
-  
+
   mypage.innerHTML = /*html*/ `
   <div>
     <div class="info_user">
@@ -110,7 +110,7 @@ export async function mypageRender() {
               <div class="product_item_img">
                 <img
                   src="https://via.placeholder.com/200x200?text=NO+IMAGE"
-                  alt=""
+                  alt="NO IMAGE"
                   class="img" />
               </div>
               <div class="product_item_wrap">
