@@ -23,7 +23,6 @@ PW : abcd1234
 |:--:|:--:|:--:|:--:|:--:|
 | <img src="https://avatars.githubusercontent.com/u/110139098?v=4" width="200"> | <img src="https://avatars.githubusercontent.com/u/100131415?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/71622691?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/83224463?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/69203535?v=4" width=200> |
 | [박희수](https://github.com/Nevacat) | [김선미](https://github.com/seon-mikim)  |   [송지윤](https://github.com/jiyoon29)                     | [장현준](https://github.com/hyeon17)   | [박현준](https://github.com/johnphjkr)  |
-| </br>라우터 연결 <br/> 로그인 및 회원가입 페이지 <br/> 검색 및 태그에 따른 상품페이지  |  장바구니 페이지  </br> 위시리스트</br> 마이페이지 </br> 계좌관리 페이지  | 메인페이지 <br/> 관리자 페이지 <br/> 전반적인 디자인 관리  |  제품 상세페이지 <br/> 결제 페이지 <br/> 결제 완료 페이지</br>  관리자 유저 목록 페이지 </br> 관리자 대시보드 페이지 </br> 구매목록 페이지 구조 제작 및 디자인 </br> 카카오톡 공유 </br> API 구조 제작 </br> 초기 라우터 구조 제작 </br> Wiki 작성 | 정보 변경 페이지 <br> 구매목록 페이지 |
 
 ### 프로젝트의 기능구현 사항
 
