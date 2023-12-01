@@ -24,25 +24,6 @@ PW : abcd1234
 | <img src="https://avatars.githubusercontent.com/u/110139098?v=4" width="200"> | <img src="https://avatars.githubusercontent.com/u/100131415?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/71622691?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/83224463?v=4" width=200> | <img src="https://avatars.githubusercontent.com/u/69203535?v=4" width=200> |
 | [박희수](https://github.com/Nevacat) | [김선미](https://github.com/seon-mikim)  |   [송지윤](https://github.com/jiyoon29)                     | [장현준](https://github.com/hyeon17)   | [박현준](https://github.com/johnphjkr)  |
 
-### 프로젝트의 기능구현 사항
-
-📌 필수사항
-
-- [x] 제공된 API를 사용하여 해당하는 쇼핑몰을 구성하기.
-- [x] 회원가입 페이지를 제작하여 회원가입 기능 구현하기.
-- [x] 로그인 페이지를 제작하여 로그인 기능 구현하기.
-- [x] 상품 리스트 페이지를 제작하여 상품 리스트 및 상세 페이지를 구현하여 상품 구매 기능 구현하기.
-- [x] 장바구니 페이지를 제작하여 장바구니 기능 구현하기.
-- [x] 주문 페이지를 제작하여 주문 기능 구현하기.
-- [x] 마이페이지를 제작하여 마이페이지 기능 구현하기.
-- [x] 검색 페이지를 제작하여 검색 및 필터를 통해 검색을 구현하기.
-
-### 프로젝트 기술 스택
-
-- Basic: `HTML` `SCSS` `JAVASCRIPT`
-- Library: `node-fetch` `Parcel` `Swiper` `Navigo` `Netlify`
-- Deploy: `Netlify`
-- Bundler: `Parcel 1`
 
 ### 프로젝트 구조
 
